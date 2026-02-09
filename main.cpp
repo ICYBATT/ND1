@@ -9,3 +9,11 @@ using std::cin;
 using std::cout;
 using std::left;
 using std::setw;
+
+struct Studentas {
+    string Vardas;
+    string Pavarde;
+    vector<int> paz;
+    int exam;
+    double rez;
+};
