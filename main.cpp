@@ -26,3 +26,9 @@ int main() {
     for (int ii = 0; ii < 2; ii++) {
         Studentas A;              // KIEKVIENAM studentui naujas objektas
         int n, temp, sum = 0;
+        
+                cout << "Iveskite varda ir pavarde: ";
+        cin >> A.Vardas >> A.Pavarde;
+
+        cout << "Iveskite semestro pazymius:\nKiek pazymiu bus? ";
+        cin >> n;
