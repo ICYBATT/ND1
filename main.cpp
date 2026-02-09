@@ -39,3 +39,10 @@ int main() {
             A.paz.push_back(temp);
             sum += temp;
         }
+
+        cout << "Iveskite egzamino paz: ";
+        cin >> A.exam;
+
+        double vidurkis = static_cast<double>(sum) / A.paz.size();
+        A.rez = vidurkis * 0.4 + A.exam * 0.6;
+
