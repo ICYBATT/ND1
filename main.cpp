@@ -32,3 +32,10 @@ int main() {
 
         cout << "Iveskite semestro pazymius:\nKiek pazymiu bus? ";
         cin >> n;
+
+             for (int i = 0; i < n; i++) {
+            cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
+            cin >> temp;
+            A.paz.push_back(temp);
+            sum += temp;
+        }
