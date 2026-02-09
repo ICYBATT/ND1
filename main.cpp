@@ -20,3 +20,9 @@ struct Studentas {
 
 void outputas(const vector<Studentas>& grupe);
 
+int main() {
+    vector<Studentas> grupe;
+
+    for (int ii = 0; ii < 2; ii++) {
+        Studentas A;              // KIEKVIENAM studentui naujas objektas
+        int n, temp, sum = 0;
