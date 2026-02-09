@@ -17,3 +17,6 @@ struct Studentas {
     int exam;
     double rez;
 };
+
+void outputas(const vector<Studentas>& grupe);
+
