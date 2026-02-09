@@ -45,4 +45,12 @@ int main() {
 
         double vidurkis = static_cast<double>(sum) / A.paz.size();
         A.rez = vidurkis * 0.4 + A.exam * 0.6;
+        
+        grupe.push_back(A);
+    }
+
+    outputas(grupe);
+    return 0;
+}
+
 
