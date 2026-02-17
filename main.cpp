@@ -3,6 +3,7 @@
 #include <string>
 #include <iomanip>
 #include <algorithm>
+#include <limits>
 
 using std::string;
 using std::vector;
@@ -20,6 +21,7 @@ struct Studentas {
 };
 
 double mediana(vector<int> paz) {
+    if (paz.empty()) return 0.0;
     std::sort(paz.begin(), paz.end());
     int n = paz.size();
 
@@ -46,24 +48,40 @@ int main() {
         cin >> A.Vardas >> A.Pavarde;
 
         cout << "Iveskite semestro pazymius:\nKiek pazymiu bus? ";
-        cin >> n;
+
+        while (!(cin >> n) || n <= 0) {
+            cout << "Klaida: iveskite teigiama sveika skaiciu: ";
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
 
         for (int i = 0; i < n; i++) {
             cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
-            cin >> temp;
+
+            while (!(cin >> temp) || temp < 1 || temp > 10) {
+                cout << "Klaida: pazymys turi buti sveikas skaicius nuo 1 iki 10. Bandykite dar karta: ";
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
             A.paz.push_back(temp);
             sum += temp;
         }
 
         cout << "Iveskite egzamino paz: ";
-        cin >> A.exam;
+
+        while (!(cin >> A.exam) || A.exam < 1 || A.exam > 10) {
+            cout << "Klaida: egzamino pazymys turi buti sveikas skaicius nuo 1 iki 10. Bandykite dar karta: ";
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
 
         // ---- PASIRINKIMAS ----
         if (pasirinkimas == 'M' || pasirinkimas == 'm') {
             double med = mediana(A.paz);
             A.rez = med * 0.4 + A.exam * 0.6;
         } else {
-            double vidurkis = static_cast<double>(sum) / A.paz.size();
+            double vidurkis = 0.0;
+            if (!A.paz.empty()) vidurkis = static_cast<double>(sum) / A.paz.size();
             A.rez = vidurkis * 0.4 + A.exam * 0.6;
         }
 
