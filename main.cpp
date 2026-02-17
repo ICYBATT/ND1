@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <iomanip>
+#include <algorithm>
 
 using std::string;
 using std::vector;
@@ -18,22 +19,36 @@ struct Studentas {
     double rez;
 };
 
+double mediana(vector<int> paz) {
+    std::sort(paz.begin(), paz.end());
+    int n = paz.size();
+
+    if (n % 2 == 1)
+        return paz[n / 2];
+    else
+        return (paz[n / 2 - 1] + paz[n / 2]) / 2.0;
+}
+
 void outputas(const vector<Studentas>& grupe);
 
 int main() {
     vector<Studentas> grupe;
 
+    char pasirinkimas;
+    cout << "Skaiciuoti pagal (V)idurki ar (M)ediana? ";
+    cin >> pasirinkimas;
+
     for (int ii = 0; ii < 2; ii++) {
-        Studentas A;              // KIEKVIENAM studentui naujas objektas
+        Studentas A;    // KIEKVIENAM studentui naujas objektas
         int n, temp, sum = 0;
-        
-                cout << "Iveskite varda ir pavarde: ";
+
+        cout << "Iveskite varda ir pavarde: ";
         cin >> A.Vardas >> A.Pavarde;
 
         cout << "Iveskite semestro pazymius:\nKiek pazymiu bus? ";
         cin >> n;
 
-             for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             cout << "Iveskite " << i + 1 << " pazymi is " << n << ": ";
             cin >> temp;
             A.paz.push_back(temp);
@@ -43,9 +58,15 @@ int main() {
         cout << "Iveskite egzamino paz: ";
         cin >> A.exam;
 
-        double vidurkis = static_cast<double>(sum) / A.paz.size();
-        A.rez = vidurkis * 0.4 + A.exam * 0.6;
-        
+        // ---- PASIRINKIMAS ----
+        if (pasirinkimas == 'M' || pasirinkimas == 'm') {
+            double med = mediana(A.paz);
+            A.rez = med * 0.4 + A.exam * 0.6;
+        } else {
+            double vidurkis = static_cast<double>(sum) / A.paz.size();
+            A.rez = vidurkis * 0.4 + A.exam * 0.6;
+        }
+
         grupe.push_back(A);
     }
 
@@ -67,5 +88,3 @@ void outputas(const vector<Studentas>& grupe) {
              << setw(10) << A.rez << std::endl;
     }
 }
-
-
