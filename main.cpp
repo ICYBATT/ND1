@@ -64,3 +64,21 @@ const char* pavardes[] = {"Kazlauskas","Petrauskas","Jankauskas","Vaitkus","Zuka
 const int NVARD = 8;
 const int NPAV = 6;
 
+int main() {
+    srand((unsigned)time(nullptr));
+
+    Studentas grupe[MAX_STUD];
+    int m = 0;
+
+    char pasirinkimas;
+    cout << "Skaiciuoti pagal (V)idurkis ar (M)ediana? ";
+    cin >> pasirinkimas;
+
+    int rezimas;
+    cout << "\nPasirink rezima:\n";
+    cout << "1 - viska ivedi ranka\n";
+    cout << "2 - ivedi studentu ir pazymiu kieki, pazymiai generuojami\n";
+    cout << "3 - viska generuoja programa\n";
+    cin >> rezimas;
+
+    int n; 
