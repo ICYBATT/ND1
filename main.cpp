@@ -82,3 +82,79 @@ int main() {
     cin >> rezimas;
 
     int n; 
+    if (rezimas == 1) {
+        cout << "Kiek studentu? ";
+        cin >> m;
+        if (m > MAX_STUD) { cout << "Per daug studentu (max " << MAX_STUD << ").\n"; return 1; }
+        cout << "Kiek pazymiu kiekvienam? ";
+        cin >> n;
+        if (n > MAX_GRADES) { cout << "Per daug pazymiu (max " << MAX_GRADES << ").\n"; return 1; }
+
+        for (int i = 0; i < m; ++i) {
+            cout << "Ivesk varda ir pavarde: ";
+            
+            cin >> ws;
+            cin.getline(grupe[i].Vardas, MAX_NAME, ' ');
+            cin >> grupe[i].Pavarde;
+
+            grupe[i].paz_count = n;
+            for (int j = 0; j < n; ++j) {
+                int x;
+                cout << "Pazymys: ";
+                cin >> x;
+                grupe[i].paz[j] = x;
+            }
+            cout << "Egzamino pazymys: ";
+            cin >> grupe[i].exam;
+            skaiciuoti(grupe[i], pasirinkimas);
+        }
+    }
+    else if (rezimas == 2) {
+        cout << "Kiek studentu? ";
+        cin >> m;
+        if (m > MAX_STUD) { cout << "Per daug studentu (max " << MAX_STUD << ").\n"; return 1; }
+        cout << "Kiek pazymiu kiekvienam? ";
+        cin >> n;
+        if (n > MAX_GRADES) { cout << "Per daug pazymiu (max " << MAX_GRADES << ").\n"; return 1; }
+
+        for (int i = 0; i < m; ++i) {
+            cout << "Ivesk varda ir pavarde: ";
+            cin >> ws;
+            cin.getline(grupe[i].Vardas, MAX_NAME, ' ');
+            cin >> grupe[i].Pavarde;
+
+            grupe[i].paz_count = n;
+            for (int j = 0; j < n; ++j) grupe[i].paz[j] = randomPaz();
+            grupe[i].exam = randomPaz();
+            skaiciuoti(grupe[i], pasirinkimas);
+        }
+    }
+    else if (rezimas == 3) {
+        m = rand() % 5 + 3;
+        n = rand() % 5 + 3;
+        cout << "Sugeneruota " << m << " studentai ir " << n << " pazymiai\n";
+        if (m > MAX_STUD) m = MAX_STUD;
+        if (n > MAX_GRADES) n = MAX_GRADES;
+
+        for (int i = 0; i < m; ++i) {
+            strncpy(grupe[i].Vardas, vardai[rand() % NVARD], MAX_NAME);
+            strncpy(grupe[i].Pavarde, pavardes[rand() % NPAV], MAX_NAME);
+            grupe[i].Vardas[MAX_NAME-1] = '\0';
+            grupe[i].Pavarde[MAX_NAME-1] = '\0';
+
+            grupe[i].paz_count = n;
+            for (int j = 0; j < n; ++j) grupe[i].paz[j] = randomPaz();
+            grupe[i].exam = randomPaz();
+            skaiciuoti(grupe[i], pasirinkimas);
+        }
+    }
+    else {
+        cout << "Neteisingas rezimas.\n";
+        return 1;
+    }
+
+    cout << "\nRezultatai:\n";
+    outputas(grupe, m);
+
+    return 0;
+}
