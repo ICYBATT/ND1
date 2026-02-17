@@ -67,3 +67,24 @@ int randomPaz() { return rand() % 10 + 1; }
 string vardai[] = {"Jonas","Ona","Mantas","Ieva","Tomas","Greta","Paulius","Egle"};
 string pavardes[] = {"Kazlauskas","Petrauskas","Jankauskas","Vaitkus","Zukauskas","Sabonis"};
 
+int main() {
+    srand(time(NULL));
+
+
+    vector<Studentas> grupe;
+
+
+    char pasirinkimas;
+    cout << "Skaiciuoti pagal (V)idurkis ar (M)ediana? ";
+    cin >> pasirinkimas;
+
+
+    int rezimas;
+    cout << "\nPasirink rezima:\n";
+    cout << "1 - viska ivedi ranka\n";
+    cout << "2 - ivedi studentu ir pazymiu kieki, pazymiai generuojami\n";
+    cout << "3 - viska generuoja programa\n";
+    cin >> rezimas;
+
+    int m, n;
+
