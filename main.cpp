@@ -33,3 +33,17 @@ double mediana(vector<int> paz) {
         return (paz[n / 2 - 1] + paz[n / 2]) / 2.0;
 }
 
+void skaiciuoti(Studentas &A, char pasirinkimas) {
+    double vidurkis = 0.0;
+    if (!A.paz.empty()) {
+        int sum = 0;
+        for (int x : A.paz) sum += x;
+        vidurkis = (double)sum / A.paz.size();
+    }
+
+    if (pasirinkimas == 'M' || pasirinkimas == 'm')
+        A.rez = mediana(A.paz) * 0.4 + A.exam * 0.6;
+    else
+        A.rez = vidurkis * 0.4 + A.exam * 0.6;
+}
+
