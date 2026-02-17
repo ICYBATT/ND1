@@ -20,3 +20,13 @@ struct Studentas {
     double rez;
 };
 
+double mediana_int_array(int arr[], int n) {
+    if (n <= 0) return 0.0;
+    
+    int tmp[MAX_GRADES];
+    for (int i = 0; i < n; ++i) tmp[i] = arr[i];
+    sort(tmp, tmp + n);
+    if (n % 2 == 1) return tmp[n/2];
+    return (tmp[n/2 - 1] + tmp[n/2]) / 2.0;
+}
+
