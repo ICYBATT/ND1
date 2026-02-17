@@ -30,3 +30,17 @@ double mediana_int_array(int arr[], int n) {
     return (tmp[n/2 - 1] + tmp[n/2]) / 2.0;
 }
 
+void skaiciuoti(Studentas &A, char pasirinkimas) {
+    double vid = 0.0;
+    if (A.paz_count > 0) {
+        int s = 0;
+        for (int i = 0; i < A.paz_count; ++i) s += A.paz[i];
+        vid = (double)s / A.paz_count;
+    }
+    if (pasirinkimas == 'M' || pasirinkimas == 'm') {
+        A.rez = mediana_int_array(A.paz, A.paz_count) * 0.4 + A.exam * 0.6;
+    } else {
+        A.rez = vid * 0.4 + A.exam * 0.6;
+    }
+}
+
