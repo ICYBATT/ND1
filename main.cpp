@@ -47,3 +47,23 @@ void skaiciuoti(Studentas &A, char pasirinkimas) {
         A.rez = vidurkis * 0.4 + A.exam * 0.6;
 }
 
+void outputas(const vector<Studentas>& grupe) {
+    cout << left << setw(12) << "Vardas"
+         << setw(20) << "Pavarde"
+         << setw(12) << "Galutinis" << "\n";
+
+    cout << "----------------------------------------\n";
+
+    for (const auto& A : grupe) {
+        cout << left << setw(12) << A.Vardas
+             << setw(20) << A.Pavarde
+             << std::fixed << std::setprecision(2)
+             << setw(12) << A.rez << "\n";
+    }
+}
+
+int randomPaz() { return rand() % 10 + 1; }
+
+string vardai[] = {"Jonas","Ona","Mantas","Ieva","Tomas","Greta","Paulius","Egle"};
+string pavardes[] = {"Kazlauskas","Petrauskas","Jankauskas","Vaitkus","Zukauskas","Sabonis"};
+
