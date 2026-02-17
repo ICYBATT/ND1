@@ -88,3 +88,84 @@ int main() {
 
     int m, n;
 
+    if (rezimas == 1) {
+
+        cout << "Kiek studentu? ";
+        cin >> m;
+        cout << "Kiek pazymiu kiekvienam? ";
+        cin >> n;
+
+        for (int i = 0; i < m; i++) {
+            Studentas A;
+
+            cout << "Ivesk varda ir pavarde: ";
+            cin >> A.Vardas >> A.Pavarde;
+
+            for (int j = 0; j < n; j++) {
+                int x;
+                cout << "Pazymys: ";
+                cin >> x;
+                A.paz.push_back(x);
+            }
+
+            cout << "Egzamino pazymys: ";
+            cin >> A.exam;
+
+            skaiciuoti(A, pasirinkimas);
+
+            grupe.push_back(A);
+        }
+    }
+
+    else if (rezimas == 2) {
+
+        cout << "Kiek studentu? ";
+        cin >> m;
+        cout << "Kiek pazymiu kiekvienam? ";
+        cin >> n;
+
+        for (int i = 0; i < m; i++) {
+            Studentas A;
+
+
+            cout << "Ivesk varda ir pavarde: ";
+            cin >> A.Vardas >> A.Pavarde;
+
+           
+            for (int j = 0; j < n; j++)
+                A.paz.push_back(randomPaz());
+
+            A.exam = randomPaz();
+
+            skaiciuoti(A, pasirinkimas);
+            grupe.push_back(A);
+        }
+    }
+
+    else if (rezimas == 3) {
+
+        m = rand() % 5 + 3;
+        n = rand() % 5 + 3;
+
+        cout << "Sugeneruota " << m << " studentai ir " << n << " pazymiai\n";
+
+        for (int i = 0; i < m; i++) {
+            Studentas A;
+
+            A.Vardas = vardai[rand()%8];
+            A.Pavarde = pavardes[rand()%6];
+
+            for (int j = 0; j < n; j++)
+                A.paz.push_back(randomPaz());
+
+            A.exam = randomPaz();
+
+            skaiciuoti(A, pasirinkimas);
+            grupe.push_back(A);
+        }
+    }
+
+    cout << "\nRezultatai:\n";
+   
+    outputas(grupe);
+}
