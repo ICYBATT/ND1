@@ -44,6 +44,18 @@ int atsitiktinis_pazymys() {
     return rand() % 10 + 1;
 }
 
+void skaiciuoti(Studentas &a) {
+    double vid = 0.0;
+    if (!a.paz.empty()) {
+        long long suma = 0;
+        for (int x : a.paz) suma += x;
+        vid = (double)suma / (double)a.paz.size();
+    }
+    double med = mediana(a.paz);
+    a.gal_vid = vid * 0.4 + a.egz * 0.6;
+    a.gal_med = med * 0.4 + a.egz * 0.6;
+}
+
 int ivesti_skaiciu(const string &tekstas, int nuo, int iki) {
     int x;
     cout << tekstas;
@@ -72,6 +84,6 @@ int ivesti_kieki(const string &tekstas) {
 
 int main() {
     srand((unsigned)time(NULL));
-    cout << "Ivedimo funkcijos pridetos.\n";
+    cout << "skaiciuoti function pridejau.\n";
     return 0;
 }
