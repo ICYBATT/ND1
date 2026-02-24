@@ -19,6 +19,8 @@ using std::setw;
 using std::fixed;
 using std::setprecision;
 using std::endl;
+using std::numeric_limits;
+using std::streamsize;
 
 struct Studentas {
     string vardas;
@@ -42,9 +44,34 @@ int atsitiktinis_pazymys() {
     return rand() % 10 + 1;
 }
 
+int ivesti_skaiciu(const string &tekstas, int nuo, int iki) {
+    int x;
+    cout << tekstas;
+    cin >> x;
+    while (!cin || x < nuo || x > iki) {
+        cout << "Klaida: iveskite skaiciu nuo " << nuo << " iki " << iki << ": ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> x;
+    }
+    return x;
+}
+
+int ivesti_kieki(const string &tekstas) {
+    int x;
+    cout << tekstas;
+    cin >> x;
+    while (!cin || x <= 0) {
+        cout << "Klaida: skaicius turi buti bent 1. Iveskite dar karta: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> x;
+    }
+    return x;
+}
+
 int main() {
     srand((unsigned)time(NULL));
-    Studentas s;
-    cout << "Mediana pavyzdys, atsitiktinis pazymys: " << atsitiktinis_pazymys() << "\n";
+    cout << "Ivedimo funkcijos pridetos.\n";
     return 0;
 }
