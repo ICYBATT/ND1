@@ -82,8 +82,32 @@ int ivesti_kieki(const string &tekstas) {
     return x;
 }
 
+int meniu() {
+    int x;
+    cout << "\nMeniu:\n";
+    cout << "1 - viska ivedi ranka\n";
+    cout << "2 - ivedi studentu ir pazymiu kieki, pazymiai generuojami\n";
+    cout << "3 - viska generuoja programa\n";
+    cout << "4 - Baigti\n";
+    cout << "5 - Nuskaityti studentus is failo (v0.2)\n";
+    cout << "6 - Rikiuoti ir isvesti rezultatus\n";
+    cout << "Pasirinkimas: ";
+    cin >> x;
+    while (!cin || x < 1 || x > 6) {
+        cout << "Klaida: iveskite skaiciu nuo 1 iki 6: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> x;
+    }
+    return x;
+}
+
 int main() {
     srand((unsigned)time(NULL));
-    cout << "skaiciuoti function pridejau.\n";
+    while (true) {
+        int p = meniu();
+        if (p == 4) break;
+        cout << "Pasirinkimas: " << p << " (dar reikia papildyti)\n";
+    }
     return 0;
 }
