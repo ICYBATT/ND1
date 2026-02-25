@@ -104,10 +104,62 @@ int meniu() {
 
 int main() {
     srand((unsigned)time(NULL));
+    vector<Studentas> grupe;
+
     while (true) {
         int p = meniu();
         if (p == 4) break;
-        cout << "Pasirinkimas: " << p << " (dar reikia papildyti)\n";
+
+        if (p == 1) {
+            int m = ivesti_kieki("Kiek studentu? ");
+            int n = ivesti_kieki("Kiek pazymiu kiekvienam? ");
+            for (int i = 0; i < m; i++) {
+                Studentas A;
+                cout << "Ivesk varda ir pavarde: ";
+                cin >> A.vardas >> A.pavarde;
+                for (int j = 0; j < n; j++) {
+                    int x = ivesti_skaiciu("Pazymys (1-10): ", 1, 10);
+                    A.paz.push_back(x);
+                }
+                A.egz = ivesti_skaiciu("Egzamino pazymys (1-10): ", 1, 10);
+                skaiciuoti(A);
+                grupe.push_back(A);
+            }
+            cout << "Uzbaigta. Is viso studentu: " << grupe.size() << endl;
+        }
+        else if (p == 2) {
+            int m = ivesti_kieki("Kiek studentu? ");
+            int n = ivesti_kieki("Kiek pazymiu generuoti kiekvienam? ");
+            for (int i = 0; i < m; i++) {
+                Studentas A;
+                cout << "Ivesk varda ir pavarde: ";
+                cin >> A.vardas >> A.pavarde;
+                for (int j = 0; j < n; j++) A.paz.push_back(atsitiktinis_pazymys());
+                A.egz = atsitiktinis_pazymys();
+                skaiciuoti(A);
+                grupe.push_back(A);
+            }
+            cout << "Sugeneruoti ir prideti " << m << " studentai.\n";
+        }
+        else if (p == 3) {
+            int m = rand() % 5 + 3;
+            int n = rand() % 5 + 3;
+            vector<string> vardai = {"Jonas","Ona","Ieva","Mantas","Egle","Tomas","Ruta","Paulius","Greta","Lukas"};
+            vector<string> pavardes = {"Kazlauskas","Petrauskas","Jankauskas","Vaitkus","Zukauskas","Stankevicius","Pocius","Noreika","Mikulenas","Sabonis"};
+            for (int i = 0; i < m; i++) {
+                Studentas A;
+                A.vardas = vardai[rand() % (int)vardai.size()];
+                A.pavarde = pavardes[rand() % (int)pavardes.size()];
+                for (int j = 0; j < n; j++) A.paz.push_back(atsitiktinis_pazymys());
+                A.egz = atsitiktinis_pazymys();
+                skaiciuoti(A);
+                grupe.push_back(A);
+            }
+            cout << "Programa sugeneravo " << m << " studentu ir po " << n << " ND kiekvienam.\n";
+        } else {
+            cout << "5 ir 6 dar padaryti reikia\n";
+        }
     }
+
     return 0;
 }
