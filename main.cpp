@@ -82,6 +82,66 @@ int ivesti_kieki(const string &tekstas) {
     return x;
 }
 
+
+bool ar_skaitmuo(char c) {
+    return c >= '0' && c <= '9';
+}
+
+int skaicius_gale(const string &s) {
+    int i = (int)s.size() - 1;
+    if (i < 0) return -1;
+    if (!ar_skaitmuo(s[i])) return -1;
+    int daugiklis = 1;
+    int sk = 0;
+    while (i >= 0 && ar_skaitmuo(s[i])) {
+        sk += (s[i] - '0') * daugiklis;
+        daugiklis *= 10;
+        i--;
+    }
+    return sk;
+}
+
+string tekstas_be_galo_skaiciaus(const string &s) {
+    int i = (int)s.size() - 1;
+    if (i < 0) return s;
+    if (!ar_skaitmuo(s[i])) return s;
+    while (i >= 0 && ar_skaitmuo(s[i])) i--;
+    return s.substr(0, i + 1);
+}
+
+bool palyginti_nat(const string &a, const string &b) {
+    string ta = tekstas_be_galo_skaiciaus(a);
+    string tb = tekstas_be_galo_skaiciaus(b);
+    if (ta != tb) return ta < tb;
+    int na = skaicius_gale(a);
+    int nb = skaicius_gale(b);
+    if (na != -1 && nb != -1) return na < nb;
+    return a < b;
+}
+
+bool compareByName(const Studentas &a, const Studentas &b) {
+    if (a.vardas != b.vardas) return palyginti_nat(a.vardas, b.vardas);
+    return palyginti_nat(a.pavarde, b.pavarde);
+}
+
+bool compareBySurname(const Studentas &a, const Studentas &b) {
+    if (a.pavarde != b.pavarde) return palyginti_nat(a.pavarde, b.pavarde);
+    return palyginti_nat(a.vardas, b.vardas);
+}
+
+bool compareByAvg(const Studentas &a, const Studentas &b) {
+    if (a.gal_vid != b.gal_vid) return a.gal_vid < b.gal_vid;
+    if (a.pavarde != b.pavarde) return palyginti_nat(a.pavarde, b.pavarde);
+    return palyginti_nat(a.vardas, b.vardas);
+}
+
+bool compareByMed(const Studentas &a, const Studentas &b) {
+    if (a.gal_med != b.gal_med) return a.gal_med < b.gal_med;
+    if (a.pavarde != b.pavarde) return palyginti_nat(a.pavarde, b.pavarde);
+    return palyginti_nat(a.vardas, b.vardas);
+}
+
+
 void isvesti_i_ekrana(const vector<Studentas> &grupe) {
     cout << left << setw(15) << "Vardas"
          << setw(20) << "Pavarde"
@@ -126,119 +186,45 @@ void isvesti_i_faila(const vector<Studentas> &grupe, const string &failas) {
     }
 }
 
-void isvedimo_pasirinkimas(const vector<Studentas> &grupe) {
+void rikiuoti(vector<Studentas> &grupe) {
     if (grupe.empty()) {
-        cout << "Grupe tuscia.\n";
+        cout << "Grupe tuscia - nera ka rikiuoti.\n";
         return;
     }
 
-    cout << "\nKur isvesti rezultatus?\n";
-    cout << "1 - I ekrana\n";
-    cout << "2 - I faila\n";
-    int kur;
-    cin >> kur;
-    while (!cin || (kur != 1 && kur != 2)) {
-        cout << "Klaida: 1 arba 2: ";
+    cout << "\nRikiuoti studentus pagal:\n";
+    cout << "1 - Varda\n";
+    cout << "2 - Pavarde\n";
+    cout << "3 - Galutini (Vid.)\n";
+    cout << "4 - Galutini (Med.)\n";
+
+    int r;
+    cin >> r;
+    while (!cin || r < 1 || r > 4) {
+        cout << "Klaida: iveskite 1-4: ";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cin >> kur;
+        cin >> r;
     }
 
-    if (kur == 1) {
-        isvesti_i_ekrana(grupe);
-    } else {
-        string outname;
-        cout << "Failo pavadinimas (pvz. rezultatai.txt): ";
-        cin >> outname;
-        isvesti_i_faila(grupe, outname);
-        cout << "Rezultatai irasyti i faila: " << outname << endl;
-    }
-}
-
-int meniu() {
-    int x;
-    cout << "\nMeniu:\n";
-    cout << "1 - viska ivedi ranka\n";
-    cout << "2 - ivedi studentu ir pazymiu kieki, pazymiai generuojami\n";
-    cout << "3 - viska generuoja programa\n";
-    cout << "4 - Baigti\n";
-    cout << "5 - Nuskaityti studentus is failo (v0.2)\n";
-    cout << "6 - Rikiuoti ir isvesti rezultatus\n";
-    cout << "Pasirinkimas: ";
-    cin >> x;
-    while (!cin || x < 1 || x > 6) {
-        cout << "Klaida: iveskite skaiciu nuo 1 iki 6: ";
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cin >> x;
-    }
-    return x;
+    if (r == 1) std::sort(grupe.begin(), grupe.end(), compareByName);
+    else if (r == 2) std::sort(grupe.begin(), grupe.end(), compareBySurname);
+    else if (r == 3) std::sort(grupe.begin(), grupe.end(), compareByAvg);
+    else std::sort(grupe.begin(), grupe.end(), compareByMed);
 }
 
 int main() {
     srand((unsigned)time(NULL));
     vector<Studentas> grupe;
 
-    while (true) {
-        int p = meniu();
-        if (p == 4) break;
+    
+    Studentas a; a.vardas = "Jonas"; a.pavarde = "Kazlauskas"; a.paz = {8,9,10}; a.egz = 9; skaiciuoti(a);
+    Studentas b; b.vardas = "Ona"; b.pavarde = "Petrauskiene"; b.paz = {7,6,8}; b.egz = 8; skaiciuoti(b);
+    grupe.push_back(a);
+    grupe.push_back(b);
 
-        if (p == 1) {
-            int m = ivesti_kieki("Kiek studentu? ");
-            int n = ivesti_kieki("Kiek pazymiu kiekvienam? ");
-            for (int i = 0; i < m; i++) {
-                Studentas A;
-                cout << "Ivesk varda ir pavarde: ";
-                cin >> A.vardas >> A.pavarde;
-                for (int j = 0; j < n; j++) {
-                    int x = ivesti_skaiciu("Pazymys (1-10): ", 1, 10);
-                    A.paz.push_back(x);
-                }
-                A.egz = ivesti_skaiciu("Egzamino pazymys (1-10): ", 1, 10);
-                skaiciuoti(A);
-                grupe.push_back(A);
-            }
-            cout << "Uzbaigta. Is viso studentu: " << grupe.size() << endl;
-        }
-        else if (p == 2) {
-            int m = ivesti_kieki("Kiek studentu? ");
-            int n = ivesti_kieki("Kiek pazymiu generuoti kiekvienam? ");
-            for (int i = 0; i < m; i++) {
-                Studentas A;
-                cout << "Ivesk varda ir pavarde: ";
-                cin >> A.vardas >> A.pavarde;
-                for (int j = 0; j < n; j++) A.paz.push_back(atsitiktinis_pazymys());
-                A.egz = atsitiktinis_pazymys();
-                skaiciuoti(A);
-                grupe.push_back(A);
-            }
-            cout << "Sugeneruoti ir prideti " << m << " studentai.\n";
-        }
-        else if (p == 3) {
-            int m = rand() % 5 + 3;
-            int n = rand() % 5 + 3;
-            vector<string> vardai = {"Jonas","Ona","Ieva","Mantas","Egle","Tomas","Ruta","Paulius","Greta","Lukas"};
-            vector<string> pavardes = {"Kazlauskas","Petrauskas","Jankauskas","Vaitkus","Zukauskas","Stankevicius","Pocius","Noreika","Mikulenas","Sabonis"};
-            for (int i = 0; i < m; i++) {
-                Studentas A;
-                A.vardas = vardai[rand() % (int)vardai.size()];
-                A.pavarde = pavardes[rand() % (int)pavardes.size()];
-                for (int j = 0; j < n; j++) A.paz.push_back(atsitiktinis_pazymys());
-                A.egz = atsitiktinis_pazymys();
-                skaiciuoti(A);
-                grupe.push_back(A);
-            }
-            cout << "Programa sugeneravo " << m << " studentu ir po " << n << " ND kiekvienam.\n";
-        } else {
-            cout << "5 ir 6 dar padaryti reikia\n";
-        }
-
-        if (!grupe.empty()) {
-            cout << "Ar norite isvesti rezultatus dabar? (1 - Taip, 2 - Ne): ";
-            int a; cin >> a;
-            if (a == 1) isvedimo_pasirinkimas(grupe);
-        }
-    }
+    rikiuoti(grupe);
+    isvesti_i_ekrana(grupe);
 
     return 0;
 }
