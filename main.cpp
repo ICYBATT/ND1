@@ -82,6 +82,79 @@ int ivesti_kieki(const string &tekstas) {
     return x;
 }
 
+void isvesti_i_ekrana(const vector<Studentas> &grupe) {
+    cout << left << setw(15) << "Vardas"
+         << setw(20) << "Pavarde"
+         << setw(18) << "Galutinis (Vid.)"
+         << setw(18) << "Galutinis (Med.)"
+         << "\n";
+
+    cout << string(15 + 20 + 18 + 18, '-') << "\n";
+
+    cout << fixed << setprecision(2);
+    for (const auto &a : grupe) {
+        cout << left << setw(15) << a.vardas
+             << setw(20) << a.pavarde
+             << setw(18) << a.gal_vid
+             << setw(18) << a.gal_med
+             << "\n";
+    }
+}
+
+void isvesti_i_faila(const vector<Studentas> &grupe, const string &failas) {
+    std::ofstream out(failas);
+    if (!out) {
+        cout << "Nepavyko sukurti failo.\n";
+        return;
+    }
+
+    out << left << setw(15) << "Vardas"
+        << setw(20) << "Pavarde"
+        << setw(18) << "Galutinis (Vid.)"
+        << setw(18) << "Galutinis (Med.)"
+        << "\n";
+
+    out << string(15 + 20 + 18 + 18, '-') << "\n";
+
+    out << fixed << setprecision(2);
+    for (const auto &a : grupe) {
+        out << left << setw(15) << a.vardas
+            << setw(20) << a.pavarde
+            << setw(18) << a.gal_vid
+            << setw(18) << a.gal_med
+            << "\n";
+    }
+}
+
+void isvedimo_pasirinkimas(const vector<Studentas> &grupe) {
+    if (grupe.empty()) {
+        cout << "Grupe tuscia.\n";
+        return;
+    }
+
+    cout << "\nKur isvesti rezultatus?\n";
+    cout << "1 - I ekrana\n";
+    cout << "2 - I faila\n";
+    int kur;
+    cin >> kur;
+    while (!cin || (kur != 1 && kur != 2)) {
+        cout << "Klaida: 1 arba 2: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> kur;
+    }
+
+    if (kur == 1) {
+        isvesti_i_ekrana(grupe);
+    } else {
+        string outname;
+        cout << "Failo pavadinimas (pvz. rezultatai.txt): ";
+        cin >> outname;
+        isvesti_i_faila(grupe, outname);
+        cout << "Rezultatai irasyti i faila: " << outname << endl;
+    }
+}
+
 int meniu() {
     int x;
     cout << "\nMeniu:\n";
@@ -158,6 +231,12 @@ int main() {
             cout << "Programa sugeneravo " << m << " studentu ir po " << n << " ND kiekvienam.\n";
         } else {
             cout << "5 ir 6 dar padaryti reikia\n";
+        }
+
+        if (!grupe.empty()) {
+            cout << "Ar norite isvesti rezultatus dabar? (1 - Taip, 2 - Ne): ";
+            int a; cin >> a;
+            if (a == 1) isvedimo_pasirinkimas(grupe);
         }
     }
 
