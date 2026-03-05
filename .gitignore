@@ -1,6 +1,6 @@
-/.vscode
-/main.exe
-/main.ilk
-/main.obj
-/main.pdb
-/vc140.pdb
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.log
+.vscode/ipch/

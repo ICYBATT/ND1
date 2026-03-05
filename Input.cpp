@@ -5,7 +5,6 @@
 
 using std::cin;
 using std::cout;
-using std::string;
 using std::numeric_limits;
 using std::streamsize;
 
@@ -19,7 +18,7 @@ static int readIntOrThrow() {
     return x;
 }
 
-int ivesti_skaiciu(const string& tekstas, int nuo, int iki) {
+int ivesti_skaiciu(const std::string& tekstas, int nuo, int iki) {
     while (true) {
         try {
             cout << tekstas;
@@ -34,7 +33,7 @@ int ivesti_skaiciu(const string& tekstas, int nuo, int iki) {
     }
 }
 
-int ivesti_kieki(const string& tekstas) {
+int ivesti_kieki(const std::string& tekstas) {
     while (true) {
         try {
             cout << tekstas;
