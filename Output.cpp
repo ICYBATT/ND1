@@ -14,51 +14,53 @@ using std::ofstream;
 using std::string;
 using std::vector;
 
-void isvesti_i_ekrana(const vector<Studentas>& grupe) {
-    cout << left << setw(15) << "Vardas"
+void isvesti_i_ekrana(const vector<Studentas>& grupe, char vm) {
+    cout << left << setw(20) << "Vardas"
          << setw(20) << "Pavarde"
-         << setw(18) << "Galutinis (Vid.)"
-         << setw(18) << "Galutinis (Med.)"
+         << setw(20) << ((vm == 'M' || vm == 'm') ? "Galutinis (Med.)" : "Galutinis (Vid.)")
          << "\n";
 
-    cout << string(15 + 20 + 18 + 18, '-') << "\n";
+    cout << string(60, '-') << "\n";
 
     cout << fixed << setprecision(2);
+
     for (const auto& a : grupe) {
-        cout << left << setw(15) << a.vardas
+        double gal = (vm == 'M' || vm == 'm') ? a.gal_med : a.gal_vid;
+
+        cout << left << setw(20) << a.vardas
              << setw(20) << a.pavarde
-             << setw(18) << a.gal_vid
-             << setw(18) << a.gal_med
+             << setw(20) << gal
              << "\n";
     }
 }
 
-void isvesti_i_faila(const vector<Studentas>& grupe, const string& failas) {
+void isvesti_i_faila(const vector<Studentas>& grupe, const string& failas, char vm) {
     ofstream out(failas);
     if (!out) {
-        cout << "Nepavyko sukurti failo.\n";
+        cout << "Nepavyko sukurti failo: " << failas << endl;
         return;
     }
 
-    out << left << setw(15) << "Vardas"
+    out << left << setw(20) << "Vardas"
         << setw(20) << "Pavarde"
-        << setw(18) << "Galutinis (Vid.)"
-        << setw(18) << "Galutinis (Med.)"
+        << setw(20) << ((vm == 'M' || vm == 'm') ? "Galutinis (Med.)" : "Galutinis (Vid.)")
         << "\n";
 
-    out << string(15 + 20 + 18 + 18, '-') << "\n";
+    out << string(60, '-') << "\n";
 
     out << fixed << setprecision(2);
+
     for (const auto& a : grupe) {
-        out << left << setw(15) << a.vardas
+        double gal = (vm == 'M' || vm == 'm') ? a.gal_med : a.gal_vid;
+
+        out << left << setw(20) << a.vardas
             << setw(20) << a.pavarde
-            << setw(18) << a.gal_vid
-            << setw(18) << a.gal_med
+            << setw(20) << gal
             << "\n";
     }
 }
 
-void isvedimo_pasirinkimas(const vector<Studentas>& grupe) {
+void isvedimo_pasirinkimas(const vector<Studentas>& grupe, char vm) {
     if (grupe.empty()) {
         cout << "Grupe tuscia.\n";
         return;
@@ -67,29 +69,16 @@ void isvedimo_pasirinkimas(const vector<Studentas>& grupe) {
     cout << "\nKur isvesti rezultatus?\n";
     cout << "1 - I ekrana\n";
     cout << "2 - I faila\n";
+
     int kur = ivesti_skaiciu("Pasirinkimas: ", 1, 2);
 
     if (kur == 1) {
-        if (grupe.size() > 10000) {
-            cout << "Perspejimas: studentu labai daug, isvedimas i ekrana gali buti labai letas.\n";
-            cout << "1 - Vis tiek testi\n";
-            cout << "2 - Geriau i faila\n";
-            int k = ivesti_skaiciu("Pasirinkimas: ", 1, 2);
-            if (k == 2) {
-                string outname;
-                cout << "Failo pavadinimas (pvz. rezultatai.txt): ";
-                std::cin >> outname;
-                isvesti_i_faila(grupe, outname);
-                cout << "Rezultatai irasyti i faila: " << outname << endl;
-                return;
-            }
-        }
-        isvesti_i_ekrana(grupe);
+        isvesti_i_ekrana(grupe, vm);
     } else {
         string outname;
         cout << "Failo pavadinimas (pvz. rezultatai.txt): ";
         std::cin >> outname;
-        isvesti_i_faila(grupe, outname);
+        isvesti_i_faila(grupe, outname, vm);
         cout << "Rezultatai irasyti i faila: " << outname << endl;
     }
 }

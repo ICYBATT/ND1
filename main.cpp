@@ -5,6 +5,7 @@
 #include <ctime>
 #include <chrono>
 #include <algorithm>
+#include <iomanip>
 
 #include "studentas.h"
 #include "Input.h"
@@ -18,6 +19,16 @@ using std::vector;
 using std::string;
 using std::cout;
 using std::endl;
+
+struct TyrimoRezultatas {
+    string failas;
+    size_t studentu_kiekis = 0;
+    int praleista = 0;
+    double skaitymas = 0.0;
+    double skirstymas = 0.0;
+    double isvedimas = 0.0;
+    double visas = 0.0;
+};
 
 static void rikiuoti(vector<Studentas>& grupe) {
     if (grupe.empty()) {
@@ -69,6 +80,53 @@ static void issaugoti_suskirstytus(
     cout << " - kietiakai.txt\n";
 }
 
+static TyrimoRezultatas atlikti_tyrima(const string& failas, char vm) {
+    TyrimoRezultatas rez;
+    rez.failas = failas;
+
+    vector<Studentas> visi;
+    vector<Studentas> vargsiukai;
+    vector<Studentas> kietiakai;
+
+    auto visas_start = std::chrono::high_resolution_clock::now();
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+    bool ok = nuskaityti_is_failo(failas, visi, rez.praleista);
+    auto t2 = std::chrono::high_resolution_clock::now();
+
+    if (!ok) return rez;
+
+    auto t3 = std::chrono::high_resolution_clock::now();
+    skirstyti_studentus(visi, vargsiukai, kietiakai, vm);
+    auto t4 = std::chrono::high_resolution_clock::now();
+
+    auto t5 = std::chrono::high_resolution_clock::now();
+    isvesti_i_faila(vargsiukai, "vargsiukai.txt", vm);
+    isvesti_i_faila(kietiakai, "kietiakai.txt", vm);
+    auto t6 = std::chrono::high_resolution_clock::now();
+
+    auto visas_end = std::chrono::high_resolution_clock::now();
+
+    rez.studentu_kiekis = visi.size();
+    rez.skaitymas = std::chrono::duration<double>(t2 - t1).count();
+    rez.skirstymas = std::chrono::duration<double>(t4 - t3).count();
+    rez.isvedimas = std::chrono::duration<double>(t6 - t5).count();
+    rez.visas = std::chrono::duration<double>(visas_end - visas_start).count();
+
+    return rez;
+}
+
+static void spausdinti_tyrimo_rezultata(const TyrimoRezultatas& r) {
+    cout << "\nFailas: " << r.failas << "\n";
+    cout << "Studentu kiekis: " << r.studentu_kiekis << "\n";
+    cout << "Praleista eiluciu: " << r.praleista << "\n";
+    cout << std::fixed << std::setprecision(6);
+    cout << "Nuskaitymas: " << r.skaitymas << " s\n";
+    cout << "Skirstymas:  " << r.skirstymas << " s\n";
+    cout << "Isvedimas:   " << r.isvedimas << " s\n";
+    cout << "Visas laikas:" << r.visas << " s\n";
+}
+
 int main() {
     std::srand((unsigned)std::time(nullptr));
 
@@ -79,7 +137,7 @@ int main() {
 
         while (true) {
             int p = meniu();
-            if (p == 8) break;
+            if (p == 9) break;
 
             if (p == 1) {
                 int m = ivesti_kieki("Kiek studentu? ");
@@ -168,7 +226,7 @@ int main() {
 
                     if (ats == 1) {
                         rikiuoti(grupe);
-                        isvedimo_pasirinkimas(grupe);
+                        isvedimo_pasirinkimas(grupe, pasirinktasVM);
                     }
                 }
             }
@@ -191,7 +249,7 @@ int main() {
                 if (grupe.empty()) cout << "Grupe tuscia.\n";
                 else {
                     rikiuoti(grupe);
-                    isvedimo_pasirinkimas(grupe);
+                    isvedimo_pasirinkimas(grupe, pasirinktasVM);
                 }
             }
             else if (p == 7) {
@@ -202,6 +260,14 @@ int main() {
                 cout << " - studentai100000.txt\n";
                 cout << " - studentai1000000.txt\n";
                 cout << " - studentai10000000.txt\n";
+            }
+            else if (p == 8) {
+                string fname;
+                cout << "Iveskite failo pavadinima tyrimui: ";
+                std::cin >> fname;
+
+                TyrimoRezultatas r = atlikti_tyrima(fname, pasirinktasVM);
+                spausdinti_tyrimo_rezultata(r);
             }
         }
 
