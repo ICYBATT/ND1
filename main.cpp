@@ -55,6 +55,19 @@ static void skirstyti_studentus(
     }
 }
 
+static void issaugoti_suskirstytus(
+    const vector<Studentas>& vargsiukai,
+    const vector<Studentas>& kietiakai,
+    char vm
+) {
+    isvesti_i_faila(vargsiukai, "vargsiukai.txt", vm);
+    isvesti_i_faila(kietiakai, "kietiakai.txt", vm);
+
+    cout << "Sukurti failai:\n";
+    cout << " - vargsiukai.txt\n";
+    cout << " - kietiakai.txt\n";
+}
+
 int main() {
     std::srand((unsigned)std::time(nullptr));
 
