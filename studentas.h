@@ -14,3 +14,4 @@ struct Studentas {
 double mediana(const std::vector<int>& paz);
 void skaiciuoti(Studentas& a);
 int atsitiktinis_pazymys();
+double galutinis_pagal(const Studentas& a, char vm);
