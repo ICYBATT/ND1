@@ -6,7 +6,7 @@
 #include <chrono>
 #include <algorithm>
 
-#include "Studentas.h"
+#include "studentas.h"
 #include "Input.h"
 #include "Menu.h"
 #include "FileIO.h"
@@ -38,11 +38,28 @@ static void rikiuoti(vector<Studentas>& grupe) {
     else std::sort(grupe.begin(), grupe.end(), compareByMed);
 }
 
+static void skirstyti_studentus(
+    const vector<Studentas>& visi,
+    vector<Studentas>& vargsiukai,
+    vector<Studentas>& kietiakai,
+    char vm
+) {
+    vargsiukai.clear();
+    kietiakai.clear();
+
+    for (const auto& s : visi) {
+        if ((vm == 'M' || vm == 'm' ? s.gal_med : s.gal_vid) < 5.0)
+            vargsiukai.push_back(s);
+        else
+            kietiakai.push_back(s);
+    }
+}
+
 int main() {
     std::srand((unsigned)std::time(nullptr));
 
     try {
-        (void)ivesti_vm(); 
+        char pasirinktasVM = ivesti_vm();
 
         vector<Studentas> grupe;
 
@@ -153,7 +170,6 @@ int main() {
         return 0;
     }
     catch (const std::exception& e) {
-        
         std::cout << "Ivyko kritine klaida: " << e.what() << "\n";
         return 1;
     }
