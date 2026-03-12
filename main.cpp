@@ -172,10 +172,18 @@ int main() {
                 }
             }
             else if (p == 6) {
-                if (grupe.empty()) cout << "Grupe tuscia.\n";
-                else {
-                    rikiuoti(grupe);
-                    isvedimo_pasirinkimas(grupe);
+                if (grupe.empty()) {
+                    cout << "Grupe tuscia.\n";
+                } else {
+                    vector<Studentas> vargsiukai;
+                    vector<Studentas> kietiakai;
+
+                    skirstyti_studentus(grupe, vargsiukai, kietiakai, pasirinktasVM);
+
+                    cout << "Vargsiuku: " << vargsiukai.size() << "\n";
+                    cout << "Kietiaku: " << kietiakai.size() << "\n";
+
+                    issaugoti_suskirstytus(vargsiukai, kietiakai, pasirinktasVM);
                 }
             }
         }
