@@ -12,6 +12,7 @@
 #include "FileIO.h"
 #include "Output.h"
 #include "NaturalSort.h"
+#include "Generator.h"
 
 using std::vector;
 using std::string;
@@ -78,7 +79,7 @@ int main() {
 
         while (true) {
             int p = meniu();
-            if (p == 4) break;
+            if (p == 8) break;
 
             if (p == 1) {
                 int m = ivesti_kieki("Kiek studentu? ");
@@ -141,7 +142,7 @@ int main() {
 
                 cout << "Programa sugeneravo " << m << " studentu ir po " << n << " ND kiekvienam.\n";
             }
-            else if (p == 5) {
+            else if (p == 4) {
                 cout << "Iveskite failo pavadinima: ";
                 string fname;
                 std::cin >> fname;
@@ -171,7 +172,7 @@ int main() {
                     }
                 }
             }
-            else if (p == 6) {
+            else if (p == 5) {
                 if (grupe.empty()) {
                     cout << "Grupe tuscia.\n";
                 } else {
@@ -185,6 +186,22 @@ int main() {
 
                     issaugoti_suskirstytus(vargsiukai, kietiakai, pasirinktasVM);
                 }
+            }
+            else if (p == 6) {
+                if (grupe.empty()) cout << "Grupe tuscia.\n";
+                else {
+                    rikiuoti(grupe);
+                    isvedimo_pasirinkimas(grupe);
+                }
+            }
+            else if (p == 7) {
+                generuoti_visus_testinius_failus();
+                cout << "Sugeneruoti failai:\n";
+                cout << " - studentai1000.txt\n";
+                cout << " - studentai10000.txt\n";
+                cout << " - studentai100000.txt\n";
+                cout << " - studentai1000000.txt\n";
+                cout << " - studentai10000000.txt\n";
             }
         }
 
