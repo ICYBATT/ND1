@@ -1,0 +1,7 @@
+Vardas              Pavarde             Galutinis (Vid.)    
+------------------------------------------------------------
+Lukas               Vaitkus             4.69                
+Ieva                Mikulenas           3.54                
+Lukas               Sabonis             4.71                
+Paulius             Jankauskas          1.91                
+Tomas               Noreika             4.34                

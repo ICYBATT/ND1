@@ -101,8 +101,12 @@ static TyrimoRezultatas atlikti_tyrima(const string& failas, char vm) {
     auto t4 = std::chrono::high_resolution_clock::now();
 
     auto t5 = std::chrono::high_resolution_clock::now();
-    isvesti_i_faila(vargsiukai, "vargsiukai.txt", vm);
-    isvesti_i_faila(kietiakai, "kietiakai.txt", vm);
+    string prefix = failas;
+    size_t taskas = prefix.find_last_of('.');
+    if (taskas != string::npos) prefix = prefix.substr(0, taskas);
+
+    isvesti_i_faila(vargsiukai, prefix + "_vargsiukai.txt", vm);
+    isvesti_i_faila(kietiakai, prefix + "_kietiakai.txt", vm);
     auto t6 = std::chrono::high_resolution_clock::now();
 
     auto visas_end = std::chrono::high_resolution_clock::now();
@@ -127,6 +131,33 @@ static void spausdinti_tyrimo_rezultata(const TyrimoRezultatas& r) {
     cout << "Visas laikas:" << r.visas << " s\n";
 }
 
+static void spausdinti_lentele(const vector<TyrimoRezultatas>& visi) {
+    cout << "\n================= TYRIMO LENTELE =================\n";
+    cout << std::left
+         << std::setw(22) << "Failas"
+         << std::setw(12) << "Studentai"
+         << std::setw(14) << "Skaitymas"
+         << std::setw(14) << "Skirstymas"
+         << std::setw(14) << "Isvedimas"
+         << std::setw(14) << "Viso"
+         << "\n";
+
+    cout << string(90, '-') << "\n";
+
+    cout << std::fixed << std::setprecision(6);
+
+    for (const auto& r : visi) {
+        cout << std::left
+             << std::setw(22) << r.failas
+             << std::setw(12) << r.studentu_kiekis
+             << std::setw(14) << r.skaitymas
+             << std::setw(14) << r.skirstymas
+             << std::setw(14) << r.isvedimas
+             << std::setw(14) << r.visas
+             << "\n";
+    }
+}
+
 int main() {
     std::srand((unsigned)std::time(nullptr));
 
@@ -137,7 +168,7 @@ int main() {
 
         while (true) {
             int p = meniu();
-            if (p == 9) break;
+            if (p == 10) break;
 
             if (p == 1) {
                 int m = ivesti_kieki("Kiek studentu? ");
@@ -160,6 +191,7 @@ int main() {
 
                 cout << "Uzbaigta. Is viso studentu: " << grupe.size() << endl;
             }
+
             else if (p == 2) {
                 int m = ivesti_kieki("Kiek studentu? ");
                 int n = ivesti_kieki("Kiek pazymiu generuoti kiekvienam? ");
@@ -169,37 +201,45 @@ int main() {
                     cout << "Ivesk varda ir pavarde: ";
                     std::cin >> A.vardas >> A.pavarde;
 
-                    for (int j = 0; j < n; j++) A.paz.push_back(atsitiktinis_pazymys());
-                    A.egz = atsitiktinis_pazymys();
+                    for (int j = 0; j < n; j++) {
+                        A.paz.push_back(atsitiktinis_pazymys());
+                    }
 
+                    A.egz = atsitiktinis_pazymys();
                     skaiciuoti(A);
                     grupe.push_back(A);
                 }
 
                 cout << "Sugeneruoti ir prideti " << m << " studentai.\n";
+                cout << "Sugeneruota studentu: " << grupe.size() << endl;
             }
+
             else if (p == 3) {
                 int m = std::rand() % 5 + 3;
                 int n = std::rand() % 5 + 3;
 
-                vector<string> vardai = {"Jonas","Ona","Ieva","Mantas","Egle","Tomas","Ruta","Paulius","Greta","Lukas"};
-                vector<string> pavardes = {"Kazlauskas","Petrauskas","Jankauskas","Vaitkus","Zukauskas",
-                                           "Stankevicius","Pocius","Noreika","Mikulenas","Sabonis"};
+                vector<string> vardai = {"Jonas", "Ona", "Ieva", "Mantas", "Egle", "Tomas", "Ruta", "Paulius", "Greta", "Lukas"};
+                vector<string> pavardes = {"Kazlauskas", "Petrauskas", "Jankauskas", "Vaitkus", "Zukauskas",
+                                           "Stankevicius", "Pocius", "Noreika", "Mikulenas", "Sabonis"};
 
                 for (int i = 0; i < m; i++) {
                     Studentas A;
                     A.vardas = vardai[std::rand() % (int)vardai.size()];
                     A.pavarde = pavardes[std::rand() % (int)pavardes.size()];
 
-                    for (int j = 0; j < n; j++) A.paz.push_back(atsitiktinis_pazymys());
-                    A.egz = atsitiktinis_pazymys();
+                    for (int j = 0; j < n; j++) {
+                        A.paz.push_back(atsitiktinis_pazymys());
+                    }
 
+                    A.egz = atsitiktinis_pazymys();
                     skaiciuoti(A);
                     grupe.push_back(A);
                 }
 
                 cout << "Programa sugeneravo " << m << " studentu ir po " << n << " ND kiekvienam.\n";
+                cout << "Sugeneruota studentu: " << grupe.size() << endl;
             }
+
             else if (p == 4) {
                 cout << "Iveskite failo pavadinima: ";
                 string fname;
@@ -221,7 +261,8 @@ int main() {
 
                     cout << "\nAr norite dabar rikiuoti ir isvesti?\n";
                     cout << "1 - Taip\n";
-                    cout << "2 - Ne (grizti i meniu)\n";
+                    cout << "2 - Ne\n";
+
                     int ats = ivesti_skaiciu("Pasirinkimas: ", 1, 2);
 
                     if (ats == 1) {
@@ -230,6 +271,7 @@ int main() {
                     }
                 }
             }
+
             else if (p == 5) {
                 if (grupe.empty()) {
                     cout << "Grupe tuscia.\n";
@@ -245,13 +287,16 @@ int main() {
                     issaugoti_suskirstytus(vargsiukai, kietiakai, pasirinktasVM);
                 }
             }
+
             else if (p == 6) {
-                if (grupe.empty()) cout << "Grupe tuscia.\n";
-                else {
+                if (grupe.empty()) {
+                    cout << "Grupe tuscia.\n";
+                } else {
                     rikiuoti(grupe);
                     isvedimo_pasirinkimas(grupe, pasirinktasVM);
                 }
             }
+
             else if (p == 7) {
                 generuoti_visus_testinius_failus();
                 cout << "Sugeneruoti failai:\n";
@@ -261,6 +306,7 @@ int main() {
                 cout << " - studentai1000000.txt\n";
                 cout << " - studentai10000000.txt\n";
             }
+
             else if (p == 8) {
                 string fname;
                 cout << "Iveskite failo pavadinima tyrimui: ";
@@ -268,6 +314,27 @@ int main() {
 
                 TyrimoRezultatas r = atlikti_tyrima(fname, pasirinktasVM);
                 spausdinti_tyrimo_rezultata(r);
+            }
+
+            else if (p == 9) {
+                vector<string> failai = {
+                    "studentai1000.txt",
+                    "studentai10000.txt",
+                    "studentai100000.txt",
+                    "studentai1000000.txt",
+                    "studentai10000000.txt"
+                };
+
+                vector<TyrimoRezultatas> rezultatai;
+
+                for (const auto& f : failai) {
+                    cout << "\nVykdomas tyrimas su: " << f << "\n";
+                    TyrimoRezultatas r = atlikti_tyrima(f, pasirinktasVM);
+                    rezultatai.push_back(r);
+                    spausdinti_tyrimo_rezultata(r);
+                }
+
+                spausdinti_lentele(rezultatai);
             }
         }
 
