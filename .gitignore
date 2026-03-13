@@ -1,3 +1,8 @@
+studentai*.txt
+kietiakiai.txt
+vargsiukai.txt
 *.obj
-*.pdb
 *.exe
+*.pdb
+*.ilk
+.vscode/

@@ -1,4 +1,0 @@
-Vardas              Pavarde             Galutinis (Vid.)    
-------------------------------------------------------------
-Jonas               Vaitkus             7.20                
-Tomas               Jankauskas          8.11                
