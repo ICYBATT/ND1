@@ -16,6 +16,7 @@
                 "Menu.cpp",
                 "Generator.cpp",
                 "Input.cpp",
+                "Tyrimas.cpp",
                 "/Fe:main.exe"
             ],
             "group": {

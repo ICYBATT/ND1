@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <list>
+#include <deque>
 #include <string>
 #include <cstdlib>
 #include <ctime>
@@ -14,8 +16,12 @@
 #include "Output.h"
 #include "NaturalSort.h"
 #include "Generator.h"
+#include "Tyrimas.h"
+#include "KonteineriuStrategijos.h"
 
 using std::vector;
+using std::list;
+using std::deque;
 using std::string;
 using std::cout;
 using std::endl;
@@ -158,6 +164,147 @@ static void spausdinti_lentele(const vector<TyrimoRezultatas>& visi) {
     }
 }
 
+static int pasirinkti_rikiavimo_buda_v1() {
+    cout << "\nRikiuoti studentus pagal:\n";
+    cout << "1 - Varda\n";
+    cout << "2 - Pavarde\n";
+    cout << "3 - Galutini (Vid.)\n";
+    cout << "4 - Galutini (Med.)\n";
+    return ivesti_skaiciu("Pasirinkimas: ", 1, 4);
+}
+
+static int pasirinkti_konteineri_v1() {
+    cout << "\nPasirinkite konteinerio tipa:\n";
+    cout << "1 - vector\n";
+    cout << "2 - list\n";
+    cout << "3 - deque\n";
+    return ivesti_skaiciu("Pasirinkimas: ", 1, 3);
+}
+
+static int pasirinkti_strategija_v1() {
+    cout << "\nPasirinkite skirstymo strategija:\n";
+    cout << "1 - du nauji konteineriai (vargsiukai ir kietiakai)\n";
+    cout << "2 - vienas naujas konteineris (vargsiukai), salinant is bendro\n";
+    cout << "3 - optimizuota strategija su partition\n";
+    return ivesti_skaiciu("Pasirinkimas: ", 1, 3);
+}
+
+template <typename Container>
+static TyrimoRezultatasV1 atlikti_v1_tyrima_sablonas(
+    const string& failas,
+    char vm,
+    int konteinerio_tipas,
+    int strategija,
+    int rikiavimo_budas
+) {
+    TyrimoRezultatasV1 rez;
+    rez.failas = failas;
+    rez.konteineris = konteinerio_pavadinimas(konteinerio_tipas);
+    rez.strategija = strategija;
+
+    Container studentai;
+    Container vargsiukai;
+    Container kietiakai;
+
+    auto visas_start = std::chrono::high_resolution_clock::now();
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+    bool ok = nuskaityti_i_konteineri(failas, studentai, rez.praleista);
+    auto t2 = std::chrono::high_resolution_clock::now();
+
+    if (!ok) {
+        return rez;
+    }
+
+    rez.studentu_kiekis = studentai.size();
+
+    auto t3 = std::chrono::high_resolution_clock::now();
+    rikiuoti_konteineri(studentai, rikiavimo_budas);
+    auto t4 = std::chrono::high_resolution_clock::now();
+
+    auto t5 = std::chrono::high_resolution_clock::now();
+
+    if (strategija == 1) {
+        skirstyti_strategija1(studentai, vargsiukai, kietiakai, vm);
+    }
+    else if (strategija == 2) {
+        skirstyti_strategija2(studentai, vargsiukai, vm);
+        kietiakai = studentai;
+    }
+    else {
+        skirstyti_strategija3(studentai, vargsiukai, kietiakai, vm);
+    }
+
+    auto t6 = std::chrono::high_resolution_clock::now();
+    auto visas_end = std::chrono::high_resolution_clock::now();
+
+    rez.nuskaitymas = std::chrono::duration<double>(t2 - t1).count();
+    rez.rikiavimas = std::chrono::duration<double>(t4 - t3).count();
+    rez.skirstymas = std::chrono::duration<double>(t6 - t5).count();
+    rez.visas = std::chrono::duration<double>(visas_end - visas_start).count();
+
+    cout << "\nVargsiuku: " << vargsiukai.size() << "\n";
+    cout << "Kietiaku: " << kietiakai.size() << "\n";
+
+    return rez;
+}
+
+static TyrimoRezultatasV1 atlikti_v1_tyrima(
+    const string& failas,
+    char vm,
+    int konteinerio_tipas,
+    int strategija,
+    int rikiavimo_budas
+) {
+    if (konteinerio_tipas == KONTEINERIS_VECTOR) {
+        return atlikti_v1_tyrima_sablonas<vector<Studentas>>(failas, vm, konteinerio_tipas, strategija, rikiavimo_budas);
+    }
+    else if (konteinerio_tipas == KONTEINERIS_LIST) {
+        return atlikti_v1_tyrima_sablonas<list<Studentas>>(failas, vm, konteinerio_tipas, strategija, rikiavimo_budas);
+    }
+    else {
+        return atlikti_v1_tyrima_sablonas<deque<Studentas>>(failas, vm, konteinerio_tipas, strategija, rikiavimo_budas);
+    }
+}
+
+static void vykdyti_v1_vieno_failo_tyrima(char vm) {
+    string fname;
+    cout << "Iveskite failo pavadinima tyrimui: ";
+    std::cin >> fname;
+
+    int konteineris = pasirinkti_konteineri_v1();
+    int strategija = pasirinkti_strategija_v1();
+    int rikiavimas = pasirinkti_rikiavimo_buda_v1();
+
+    TyrimoRezultatasV1 r = atlikti_v1_tyrima(fname, vm, konteineris, strategija, rikiavimas);
+    spausdinti_v1_rezultata(r);
+}
+
+static void vykdyti_v1_visu_failu_tyrima(char vm) {
+    vector<string> failai = {
+        "studentai1000.txt",
+        "studentai10000.txt",
+        "studentai100000.txt",
+        "studentai1000000.txt",
+        "studentai10000000.txt"
+    };
+
+    int konteineris = pasirinkti_konteineri_v1();
+    int strategija = pasirinkti_strategija_v1();
+    int rikiavimas = pasirinkti_rikiavimo_buda_v1();
+
+    vector<TyrimoRezultatasV1> rezultatai;
+
+    for (const auto& f : failai) {
+        cout << "\nVykdomas V1.0 tyrimas su: " << f << "\n";
+        TyrimoRezultatasV1 r = atlikti_v1_tyrima(f, vm, konteineris, strategija, rikiavimas);
+        rezultatai.push_back(r);
+        spausdinti_v1_rezultata(r);
+    }
+
+    spausdinti_v1_lentele(rezultatai);
+}
+
 int main() {
     std::srand((unsigned)std::time(nullptr));
 
@@ -218,9 +365,9 @@ int main() {
                 int m = std::rand() % 5 + 3;
                 int n = std::rand() % 5 + 3;
 
-                vector<string> vardai = {"Jonas", "Ona", "Ieva", "Mantas", "Egle", "Tomas", "Ruta", "Paulius", "Greta", "Lukas"};
-                vector<string> pavardes = {"Kazlauskas", "Petrauskas", "Jankauskas", "Vaitkus", "Zukauskas",
-                                           "Stankevicius", "Pocius", "Noreika", "Mikulenas", "Sabonis"};
+                vector<string> vardai = { "Jonas", "Ona", "Ieva", "Mantas", "Egle", "Tomas", "Ruta", "Paulius", "Greta", "Lukas" };
+                vector<string> pavardes = { "Kazlauskas", "Petrauskas", "Jankauskas", "Vaitkus", "Zukauskas",
+                                           "Stankevicius", "Pocius", "Noreika", "Mikulenas", "Sabonis" };
 
                 for (int i = 0; i < m; i++) {
                     Studentas A;
@@ -253,7 +400,8 @@ int main() {
 
                 if (!ok) {
                     cout << "Skaitymas nepavyko.\n";
-                } else {
+                }
+                else {
                     std::chrono::duration<double> diff = end - start;
                     cout << "Studentu: " << grupe.size() << endl;
                     cout << "Laikas: " << diff.count() << " s\n";
@@ -275,7 +423,8 @@ int main() {
             else if (p == 5) {
                 if (grupe.empty()) {
                     cout << "Grupe tuscia.\n";
-                } else {
+                }
+                else {
                     vector<Studentas> vargsiukai;
                     vector<Studentas> kietiakai;
 
@@ -291,7 +440,8 @@ int main() {
             else if (p == 6) {
                 if (grupe.empty()) {
                     cout << "Grupe tuscia.\n";
-                } else {
+                }
+                else {
                     rikiuoti(grupe);
                     isvedimo_pasirinkimas(grupe, pasirinktasVM);
                 }
@@ -335,6 +485,14 @@ int main() {
                 }
 
                 spausdinti_lentele(rezultatai);
+            }
+
+            else if (p == 10) {
+                vykdyti_v1_vieno_failo_tyrima(pasirinktasVM);
+            }
+
+            else if (p == 11) {
+                vykdyti_v1_visu_failu_tyrima(pasirinktasVM);
             }
         }
 
