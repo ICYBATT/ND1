@@ -1,0 +1,30 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build whole project",
+            "type": "shell",
+            "command": "cl.exe",
+            "args": [
+                "/EHsc",
+                "/std:c++17",
+                "main.cpp",
+                "studentas.cpp",
+                "FileIO.cpp",
+                "Output.cpp",
+                "NaturalSort.cpp",
+                "Menu.cpp",
+                "Generator.cpp",
+                "Input.cpp",
+                "/Fe:main.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        }
+    ]
+}
