@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Studentas.h"
+#include "studentas.h"
 
 bool palyginti_nat(const std::string& a, const std::string& b);
 
