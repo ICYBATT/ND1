@@ -11,9 +11,11 @@ int meniu() {
     std::cout << "5 - Suskirstyti studentus i vargsiukus ir kietiakus\n";
     std::cout << "6 - Rikiuoti ir isvesti dabartine grupe\n";
     std::cout << "7 - Sugeneruoti testinius failus\n";
-    std::cout << "8 - Atlikti vieno failo spartos tyrima\n";
-    std::cout << "9 - Atlikti visu failu spartos tyrima\n";
-    std::cout << "10 - Baigti\n";
+    std::cout << "8 - Atlikti vieno failo spartos tyrima (v0.4)\n";
+    std::cout << "9 - Atlikti visu failu spartos tyrima (v0.4)\n";
+    std::cout << "10 - V1.0 vieno failo konteineriu tyrimas\n";
+    std::cout << "11 - V1.0 visu failu konteineriu tyrimas\n";
+    std::cout << "12 - Baigti\n";
 
-    return ivesti_skaiciu("Pasirinkimas: ", 1, 10);
+    return ivesti_skaiciu("Pasirinkimas: ", 1, 12);
 }
