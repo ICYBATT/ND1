@@ -168,7 +168,7 @@ int main() {
 
         while (true) {
             int p = meniu();
-            if (p == 10) break;
+            if (p == 12) break;
 
             if (p == 1) {
                 int m = ivesti_kieki("Kiek studentu? ");
