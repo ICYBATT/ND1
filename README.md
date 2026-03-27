@@ -178,11 +178,14 @@ Projektas taip pat gali buti kompiliuojamas naudojant MSVC per `tasks.json`.
 
 ## Iliustracijos
 
-Darbas papildytas ekranu nuotraukomis, kuriose matyti:
-- programos meniu
-- konteineriu tyrimo rezultatai
-- testavimo sistemos parametrai
-- GitHub commitu istorija
+### Programos meniu
+<img width="1156" height="796" alt="image" src="https://github.com/user-attachments/assets/b5fccb09-8a90-4e98-8333-eb574ef2de20" />
+
+<img width="432" height="189" alt="image" src="https://github.com/user-attachments/assets/8034eec3-b2a8-4445-b525-67eac498ca0f" />
+
+### Tyrimo rezultatai
+<img width="540" height="318" alt="image" src="https://github.com/user-attachments/assets/939542ab-74cc-4913-8f06-b7000343c2e9" />
+
 
 
 ## Isvados
