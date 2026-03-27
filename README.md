@@ -91,3 +91,20 @@ Naudotas failas:
 Rezultatai:
 - programa veikia stabiliai
 - visi skirstymai atliekami teisingai
+
+## Programos paleidimas
+
+Programa paleidziama taip:
+
+1. Atidaryti projekto aplanka.
+2. Sukompiliuoti projekta (per Visual Studio arba tasks.json).
+3. Paleisti `main.exe`.
+4. Pasirinkti skaiciavimo buda:
+   - V - vidurkis
+   - M - mediana
+5. Naudoti meniu:
+
+Svarbiausi punktai:
+- 7 - generuoti testinius failus
+- 10 - vieno failo konteineriu tyrimas
+- 11 - visu failu konteineriu tyrimas
