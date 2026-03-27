@@ -160,6 +160,20 @@ Svarbiausi punktai:
 - 10 - vieno failo konteineriu tyrimas
 - 11 - visu failu konteineriu tyrimas
 
+## Diegimas su CMake
+
+Projektas gali buti kompiliuojamas naudojant `CMakeLists.txt`.
+
+Pagrindiniai zingsniai:
+1. Atidaryti terminala projekto aplanke.
+2. Sukurti `build` aplanka.
+3. Pereiti i `build` aplanka.
+4. Ivykdyti sias komandas:
+   - `cmake ..`
+   - `cmake --build .`
+
+Projektas taip pat gali buti kompiliuojamas naudojant MSVC per `tasks.json`.
+
 
 ## Isvados
 
