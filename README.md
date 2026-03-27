@@ -160,6 +160,7 @@ Svarbiausi punktai:
 - 10 - vieno failo konteineriu tyrimas
 - 11 - visu failu konteineriu tyrimas
 
+
 ## Diegimas su CMake
 
 Projektas gali buti kompiliuojamas naudojant `CMakeLists.txt`.
@@ -173,6 +174,15 @@ Pagrindiniai zingsniai:
    - `cmake --build .`
 
 Projektas taip pat gali buti kompiliuojamas naudojant MSVC per `tasks.json`.
+
+
+## Iliustracijos
+
+Darbas papildytas ekranu nuotraukomis, kuriose matyti:
+- programos meniu
+- konteineriu tyrimo rezultatai
+- testavimo sistemos parametrai
+- GitHub commitu istorija
 
 
 ## Isvados
