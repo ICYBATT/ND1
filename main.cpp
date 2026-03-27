@@ -256,15 +256,43 @@ static TyrimoRezultatasV1 atlikti_v1_tyrima(
     int strategija,
     int rikiavimo_budas
 ) {
-    if (konteinerio_tipas == KONTEINERIS_VECTOR) {
-        return atlikti_v1_tyrima_sablonas<vector<Studentas>>(failas, vm, konteinerio_tipas, strategija, rikiavimo_budas);
+    const int KARTAI = 5;
+
+    double sum_nuskaitymas = 0;
+    double sum_rikiavimas = 0;
+    double sum_skirstymas = 0;
+    double sum_visas = 0;
+
+    TyrimoRezultatasV1 paskutinis;
+
+    for (int i = 0; i < KARTAI; i++) {
+
+        TyrimoRezultatasV1 r;
+
+        if (konteinerio_tipas == KONTEINERIS_VECTOR) {
+            r = atlikti_v1_tyrima_sablonas<vector<Studentas>>(failas, vm, konteinerio_tipas, strategija, rikiavimo_budas);
+        }
+        else if (konteinerio_tipas == KONTEINERIS_LIST) {
+            r = atlikti_v1_tyrima_sablonas<list<Studentas>>(failas, vm, konteinerio_tipas, strategija, rikiavimo_budas);
+        }
+        else {
+            r = atlikti_v1_tyrima_sablonas<deque<Studentas>>(failas, vm, konteinerio_tipas, strategija, rikiavimo_budas);
+        }
+
+        sum_nuskaitymas += r.nuskaitymas;
+        sum_rikiavimas += r.rikiavimas;
+        sum_skirstymas += r.skirstymas;
+        sum_visas += r.visas;
+
+        paskutinis = r;
     }
-    else if (konteinerio_tipas == KONTEINERIS_LIST) {
-        return atlikti_v1_tyrima_sablonas<list<Studentas>>(failas, vm, konteinerio_tipas, strategija, rikiavimo_budas);
-    }
-    else {
-        return atlikti_v1_tyrima_sablonas<deque<Studentas>>(failas, vm, konteinerio_tipas, strategija, rikiavimo_budas);
-    }
+
+    paskutinis.nuskaitymas = sum_nuskaitymas / KARTAI;
+    paskutinis.rikiavimas = sum_rikiavimas / KARTAI;
+    paskutinis.skirstymas = sum_skirstymas / KARTAI;
+    paskutinis.visas = sum_visas / KARTAI;
+
+    return paskutinis;
 }
 
 static void vykdyti_v1_vieno_failo_tyrima(char vm) {
