@@ -31,3 +31,18 @@ Rezultatai:
 - programa nelūžta
 - skirstymas veikia teisingai
 - gaunami vargšiukai ir kietiakai
+
+### Deque konteineris
+
+Atliktas deque konteinerio testavimas su visomis trimis strategijomis:
+
+- Strategija 1 – veikia korektiškai
+- Strategija 2 – veikia korektiškai
+- Strategija 3 – veikia korektiškai
+
+Naudotas failas:
+- studentai1000.txt
+
+Rezultatai:
+- programa veikia stabiliai
+- visi skirstymai atliekami teisingai
