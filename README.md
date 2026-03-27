@@ -10,7 +10,9 @@ Programa leidzia:
 - suskirstyti studentus i vargsiukus ir kietiakius
 - atlikti spartos tyrimus
 
+
 ## Versijos
+
 
 ### v0.4
 v0.4 versijoje realizuota:
@@ -45,6 +47,7 @@ Testavimas atliktas su sia sistema:
 
 ## Testavimas
 
+
 ### Vector konteineris
 
 Atliktas vector konteinerio testavimas su visomis trimis strategijomis:
@@ -60,6 +63,7 @@ Rezultatai:
 - programa nelūžta
 - skirstymas veikia teisingai
 - gaunami vargšiukai ir kietiakai
+
 
 ### List konteineris
 
@@ -77,7 +81,9 @@ Rezultatai:
 - skirstymas veikia teisingai
 - gaunami vargšiukai ir kietiakai
 
+
 ### Deque konteineris
+
 
 Atliktas deque konteinerio testavimas su visomis trimis strategijomis:
 
@@ -87,6 +93,14 @@ Atliktas deque konteinerio testavimas su visomis trimis strategijomis:
 
 Naudotas failas:
 - studentai1000.txt
+
+  
+## Tyrimo metodika
+
+Visi testai atlikti naudojant tuos pacius sugeneruotus failus.
+
+Kiekvienas testas buvo vykdomas 5 kartus, o rezultatas – vidurkis.
+
 
 Rezultatai:
 - programa veikia stabiliai
@@ -108,6 +122,7 @@ Svarbiausi punktai:
 - 7 - generuoti testinius failus
 - 10 - vieno failo konteineriu tyrimas
 - 11 - visu failu konteineriu tyrimas
+
 
 ## Isvados
 
