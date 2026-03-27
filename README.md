@@ -196,3 +196,13 @@ Atlikus tyrima su `vector`, `list` ir `deque`, galima teigti, kad:
 - 1 ir 3 strategijos veikia efektyviau
 
 Didinant duomenu kieki, skirtumai tarp konteineriu tampa labiau pastebimi
+
+
+## Baigiamasis komentaras
+
+Galutine projekto versija atitinka v1.0 reikalavimus:
+- realizuoti `vector`, `list` ir `deque` konteineriai
+- realizuotos visos 3 studentu skirstymo strategijos
+- atliktas spartos tyrimas naudojant is anksto sugeneruotus failus
+- skaiciuojamas keliu paleidimu laiku vidurkis
+- parengta dokumentacija, paleidimo ir diegimo instrukcijos
