@@ -32,6 +32,7 @@ v1.0 versijoje papildomai realizuota:
 - keliu paleidimu vidurkio skaiciavimas
 - CMake failas
 
+
 ## Testavimo sistema
 
 Testavimas atliktas su sia sistema:
@@ -44,6 +45,7 @@ Testavimas atliktas su sia sistema:
   - HDD (SATA)
 - Vaizdo plokste: NVIDIA GeForce RTX 3080
 - Kompiliatorius / aplinka: MSVC / Visual Studio Code
+
 
 ## Testavimas
 
@@ -60,9 +62,9 @@ Naudotas failas:
 - studentai1000.txt
 
 Rezultatai:
-- programa nelūžta
+- programa neluzta
 - skirstymas veikia teisingai
-- gaunami vargšiukai ir kietiakai
+- gaunami vargsiukai ir kietiakai
 
 
 ### List konteineris
@@ -77,13 +79,12 @@ Naudotas failas:
 - studentai1000.txt
 
 Rezultatai:
-- programa nelūžta
+- programa neluzta
 - skirstymas veikia teisingai
-- gaunami vargšiukai ir kietiakai
+- gaunami vargsiukai ir kietiakai
 
 
 ### Deque konteineris
-
 
 Atliktas deque konteinerio testavimas su visomis trimis strategijomis:
 
@@ -94,17 +95,53 @@ Atliktas deque konteinerio testavimas su visomis trimis strategijomis:
 Naudotas failas:
 - studentai1000.txt
 
-  
+Rezultatai:
+- programa veikia stabiliai
+- visi skirstymai atliekami teisingai
+
+
 ## Tyrimo metodika
 
 Visi testai atlikti naudojant tuos pacius sugeneruotus failus.
 
 Kiekvienas testas buvo vykdomas 5 kartus, o rezultatas – vidurkis.
 
-
 Rezultatai:
 - programa veikia stabiliai
 - visi skirstymai atliekami teisingai
+
+
+## Tyrimo rezultatai
+
+### studentai1000.txt
+
+
+#### Vector
+
+| Strategija | Nuskaitymas | Rikiavimas | Skirstymas | Visas |
+|-----------|------------|------------|------------|-------|
+| 1 | 0.01889 | 0.00177 | 0.00043 | 0.02111 |
+| 2 | 0.01859 | 0.00177 | 0.01208 | 0.03245 |
+| 3 | 0.01887 | 0.00178 | 0.00042 | 0.02108 |
+
+
+#### List
+
+| Strategija | Nuskaitymas | Rikiavimas | Skirstymas | Visas |
+|-----------|------------|------------|------------|-------|
+| 1 | 0.01855 | 0.00115 | 0.00025 | 0.01996 |
+| 2 | 0.01853 | 0.00115 | 0.00025 | 0.01994 |
+| 3 | 0.02056 | 0.00118 | 0.00061 | 0.02237 |
+
+
+#### Deque
+
+| Strategija | Nuskaitymas | Rikiavimas | Skirstymas | Visas |
+|-----------|------------|------------|------------|-------|
+| 1 | 0.01865 | 0.00190 | 0.00026 | 0.02083 |
+| 2 | 0.01843 | 0.00188 | 0.00549 | 0.02581 |
+| 3 | 0.01879 | 0.00197 | 0.00069 | 0.02145 |
+
 
 ## Programos paleidimas
 
@@ -128,10 +165,10 @@ Svarbiausi punktai:
 
 Atlikus tyrima su `vector`, `list` ir `deque`, galima teigti, kad:
 
-- `vector` daugeliu atveju yra greiciausias.
-- `list` patogus elementu salinimui, bet ne visada optimalus.
-- `deque` uzima tarpine vieta tarp `vector` ir `list`.
-- 2 strategija yra letesne del elementu salinimo.
-- 1 ir 3 strategijos veikia efektyviau.
+- `vector` daugeliu atveju yra greiciausias
+- `list` patogus elementu salinimui, bet ne visada optimalus
+- `deque` uzima tarpine vieta tarp `vector` ir `list`
+- 2 strategija yra letesne del elementu salinimo
+- 1 ir 3 strategijos veikia efektyviau
 
-Didinant duomenu kieki, skirtumai tarp konteineriu tampa labiau pastebimi.
+Didinant duomenu kieki, skirtumai tarp konteineriu tampa labiau pastebimi
