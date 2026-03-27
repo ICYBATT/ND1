@@ -108,3 +108,15 @@ Svarbiausi punktai:
 - 7 - generuoti testinius failus
 - 10 - vieno failo konteineriu tyrimas
 - 11 - visu failu konteineriu tyrimas
+
+## Isvados
+
+Atlikus tyrima su `vector`, `list` ir `deque`, galima teigti, kad:
+
+- `vector` daugeliu atveju yra greiciausias.
+- `list` patogus elementu salinimui, bet ne visada optimalus.
+- `deque` uzima tarpine vieta tarp `vector` ir `list`.
+- 2 strategija yra letesne del elementu salinimo.
+- 1 ir 3 strategijos veikia efektyviau.
+
+Didinant duomenu kieki, skirtumai tarp konteineriu tampa labiau pastebimi.
