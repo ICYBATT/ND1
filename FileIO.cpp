@@ -22,7 +22,8 @@ bool nuskaityti_is_failo(const string& failas, vector<Studentas>& grupe, int& pr
 
     try {
         patikrinti_faila_ar_throw(failas);
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e) {
         cout << e.what() << endl;
         return false;
     }
@@ -36,28 +37,49 @@ bool nuskaityti_is_failo(const string& failas, vector<Studentas>& grupe, int& pr
         istringstream iss(line);
         Studentas a;
 
-        if (!(iss >> a.vardas >> a.pavarde)) {
+        string vardas, pavarde;
+        if (!(iss >> vardas >> pavarde)) {
             praleista++;
             continue;
         }
-        if (a.vardas == "Vardas" && a.pavarde == "Pavarde") continue;
+
+        if (vardas == "Vardas" && pavarde == "Pavarde") continue;
+
+        a.setVardas(vardas);
+        a.setPavarde(pavarde);
 
         vector<int> skaiciai;
         int x;
-        while (iss >> x) skaiciai.push_back(x);
+        while (iss >> x) {
+            skaiciai.push_back(x);
+        }
 
-        if (!iss.eof()) { praleista++; continue; }
-        if (skaiciai.size() < 2) { praleista++; continue; }
+        if (!iss.eof()) {
+            praleista++;
+            continue;
+        }
+
+        if (skaiciai.size() < 2) {
+            praleista++;
+            continue;
+        }
 
         bool bloga = false;
         for (int v : skaiciai) {
-            if (v < 1 || v > 10) { bloga = true; break; }
+            if (v < 1 || v > 10) {
+                bloga = true;
+                break;
+            }
         }
-        if (bloga) { praleista++; continue; }
 
-        a.egz = skaiciai.back();
+        if (bloga) {
+            praleista++;
+            continue;
+        }
+
+        a.setEgz(skaiciai.back());
         skaiciai.pop_back();
-        a.paz = skaiciai;
+        a.setPaz(skaiciai);
 
         skaiciuoti(a);
         grupe.push_back(a);
