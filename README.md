@@ -65,17 +65,17 @@ Palyginimui naudoti:
 
 | Versija | O1 | O2 | O3 |
 |---|---:|---:|---:|
-| Struct | Irasyti_struct_O1 | Irasyti_struct_O2 | Irasyti_struct_O3 |
-| Class  | Irasyti_class_O1 | Irasyti_class_O2 | Irasyti_class_O3 |
+| Struct | 379904 B | 420352 B | 425984 B |
+| Class  | 384000 B | 408064 B | 413184 B |
 
 ## Rezultatu analize
 
-Atlikus tyrima matyti, kad:
 - `struct` versija sioje realizacijoje buvo greitesne uz `class` versija su O1 ir O2 optimizacijomis.
-- `class` versija su O3 optimizacija stipriai pagreitejo ir savo rezultatais priartejo prie `struct` versijos.
+- `class` versija su O3 optimizacija stipriai pagreitejo ir savo rezultatais beveik susilygino su `struct` versija.
 - Didziausias skirtumas tarp versiju matomas su 1000000 dydzio failu.
 - O3 optimizacija turejo didziausia teigiama itaka `class` versijai.
 - Programos veikimo laikui daugiausia itakos turi failo nuskaitymas ir rezultatu isvedimas.
+- Visi testai atlikti po kelis kartus, siekiant gauti stabilesnius ir patikimesnius rezultatus.
 
 ## Isvados
 
@@ -95,4 +95,3 @@ Atlikus tyrima matyti, kad:
 - `main_O1.exe`
 - `main_O2.exe`
 - `main_O3.exe`
-
