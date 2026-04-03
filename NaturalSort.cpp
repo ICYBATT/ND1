@@ -44,23 +44,23 @@ bool palyginti_nat(const std::string& a, const std::string& b) {
 }
 
 bool compareByName(const Studentas& a, const Studentas& b) {
-    if (a.vardas != b.vardas) return palyginti_nat(a.vardas, b.vardas);
-    return palyginti_nat(a.pavarde, b.pavarde);
+    if (a.getVardas() != b.getVardas()) return palyginti_nat(a.getVardas(), b.getVardas());
+    return palyginti_nat(a.getPavarde(), b.getPavarde());
 }
 
 bool compareBySurname(const Studentas& a, const Studentas& b) {
-    if (a.pavarde != b.pavarde) return palyginti_nat(a.pavarde, b.pavarde);
-    return palyginti_nat(a.vardas, b.vardas);
+    if (a.getPavarde() != b.getPavarde()) return palyginti_nat(a.getPavarde(), b.getPavarde());
+    return palyginti_nat(a.getVardas(), b.getVardas());
 }
 
 bool compareByAvg(const Studentas& a, const Studentas& b) {
-    if (a.gal_vid != b.gal_vid) return a.gal_vid < b.gal_vid;
-    if (a.pavarde != b.pavarde) return palyginti_nat(a.pavarde, b.pavarde);
-    return palyginti_nat(a.vardas, b.vardas);
+    if (a.getGalVid() != b.getGalVid()) return a.getGalVid() < b.getGalVid();
+    if (a.getPavarde() != b.getPavarde()) return palyginti_nat(a.getPavarde(), b.getPavarde());
+    return palyginti_nat(a.getVardas(), b.getVardas());
 }
 
 bool compareByMed(const Studentas& a, const Studentas& b) {
-    if (a.gal_med != b.gal_med) return a.gal_med < b.gal_med;
-    if (a.pavarde != b.pavarde) return palyginti_nat(a.pavarde, b.pavarde);
-    return palyginti_nat(a.vardas, b.vardas);
+    if (a.getGalMed() != b.getGalMed()) return a.getGalMed() < b.getGalMed();
+    if (a.getPavarde() != b.getPavarde()) return palyginti_nat(a.getPavarde(), b.getPavarde());
+    return palyginti_nat(a.getVardas(), b.getVardas());
 }
