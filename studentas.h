@@ -2,13 +2,37 @@
 #include <string>
 #include <vector>
 
-struct Studentas {
-    std::string vardas;
-    std::string pavarde;
-    std::vector<int> paz;
-    int egz = 0;
-    double gal_vid = 0.0;
-    double gal_med = 0.0;
+class Studentas {
+private:
+    std::string vardas_;
+    std::string pavarde_;
+    std::vector<int> paz_;
+    int egz_;
+    double gal_vid_;
+    double gal_med_;
+
+public:
+    Studentas();
+    Studentas(const std::string& vardas, const std::string& pavarde,
+              const std::vector<int>& paz, int egz);
+    Studentas(const Studentas& kitas);
+    Studentas& operator=(const Studentas& kitas);
+    ~Studentas();
+
+    const std::string& getVardas() const;
+    const std::string& getPavarde() const;
+    const std::vector<int>& getPaz() const;
+    int getEgz() const;
+    double getGalVid() const;
+    double getGalMed() const;
+
+    void setVardas(const std::string& vardas);
+    void setPavarde(const std::string& pavarde);
+    void setPaz(const std::vector<int>& paz);
+    void addPazymys(int pazymys);
+    void setEgz(int egz);
+
+    void skaiciuotiGalutinius();
 };
 
 double mediana(const std::vector<int>& paz);
