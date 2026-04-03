@@ -11,7 +11,7 @@
             "cwd": "${workspaceFolder}",
             "environment": [],
             "console": "externalTerminal",
-            "preLaunchTask": "Build whole project"
+            "preLaunchTask": "Build Debug"
         }
     ]
 }
