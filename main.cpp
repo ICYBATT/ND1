@@ -66,7 +66,7 @@ static void skirstyti_studentus(
     kietiakai.clear();
 
     for (const auto& s : visi) {
-        if ((vm == 'M' || vm == 'm' ? s.gal_med : s.gal_vid) < 5.0)
+        if (galutinis_pagal(s, vm) < 5.0)
             vargsiukai.push_back(s);
         else
             kietiakai.push_back(s);
@@ -351,15 +351,20 @@ int main() {
 
                 for (int i = 0; i < m; i++) {
                     Studentas A;
+                    string vardas, pavarde;
+
                     cout << "Ivesk varda ir pavarde: ";
-                    std::cin >> A.vardas >> A.pavarde;
+                    std::cin >> vardas >> pavarde;
+
+                    A.setVardas(vardas);
+                    A.setPavarde(pavarde);
 
                     for (int j = 0; j < n; j++) {
                         int x = ivesti_skaiciu("Pazymys (1-10): ", 1, 10);
-                        A.paz.push_back(x);
+                        A.addPazymys(x);
                     }
 
-                    A.egz = ivesti_skaiciu("Egzamino pazymys (1-10): ", 1, 10);
+                    A.setEgz(ivesti_skaiciu("Egzamino pazymys (1-10): ", 1, 10));
                     skaiciuoti(A);
                     grupe.push_back(A);
                 }
@@ -373,14 +378,19 @@ int main() {
 
                 for (int i = 0; i < m; i++) {
                     Studentas A;
+                    string vardas, pavarde;
+
                     cout << "Ivesk varda ir pavarde: ";
-                    std::cin >> A.vardas >> A.pavarde;
+                    std::cin >> vardas >> pavarde;
+
+                    A.setVardas(vardas);
+                    A.setPavarde(pavarde);
 
                     for (int j = 0; j < n; j++) {
-                        A.paz.push_back(atsitiktinis_pazymys());
+                        A.addPazymys(atsitiktinis_pazymys());
                     }
 
-                    A.egz = atsitiktinis_pazymys();
+                    A.setEgz(atsitiktinis_pazymys());
                     skaiciuoti(A);
                     grupe.push_back(A);
                 }
@@ -399,14 +409,14 @@ int main() {
 
                 for (int i = 0; i < m; i++) {
                     Studentas A;
-                    A.vardas = vardai[std::rand() % (int)vardai.size()];
-                    A.pavarde = pavardes[std::rand() % (int)pavardes.size()];
+                    A.setVardas(vardai[std::rand() % (int)vardai.size()]);
+                    A.setPavarde(pavardes[std::rand() % (int)pavardes.size()]);
 
                     for (int j = 0; j < n; j++) {
-                        A.paz.push_back(atsitiktinis_pazymys());
+                        A.addPazymys(atsitiktinis_pazymys());
                     }
 
-                    A.egz = atsitiktinis_pazymys();
+                    A.setEgz(atsitiktinis_pazymys());
                     skaiciuoti(A);
                     grupe.push_back(A);
                 }
