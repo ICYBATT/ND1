@@ -25,10 +25,10 @@ void isvesti_i_ekrana(const vector<Studentas>& grupe, char vm) {
     cout << fixed << setprecision(2);
 
     for (const auto& a : grupe) {
-        double gal = (vm == 'M' || vm == 'm') ? a.gal_med : a.gal_vid;
+        double gal = galutinis_pagal(a, vm);
 
-        cout << left << setw(20) << a.vardas
-             << setw(20) << a.pavarde
+        cout << left << setw(20) << a.getVardas()
+             << setw(20) << a.getPavarde()
              << setw(20) << gal
              << "\n";
     }
@@ -51,10 +51,10 @@ void isvesti_i_faila(const vector<Studentas>& grupe, const string& failas, char 
     out << fixed << setprecision(2);
 
     for (const auto& a : grupe) {
-        double gal = (vm == 'M' || vm == 'm') ? a.gal_med : a.gal_vid;
+        double gal = galutinis_pagal(a, vm);
 
-        out << left << setw(20) << a.vardas
-            << setw(20) << a.pavarde
+        out << left << setw(20) << a.getVardas()
+            << setw(20) << a.getPavarde()
             << setw(20) << gal
             << "\n";
     }
