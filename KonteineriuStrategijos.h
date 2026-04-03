@@ -31,12 +31,16 @@ bool nuskaityti_i_konteineri(const std::string& failas, Container& grupe, int& p
         std::istringstream iss(line);
         Studentas a;
 
-        if (!(iss >> a.vardas >> a.pavarde)) {
+        std::string vardas, pavarde;
+        if (!(iss >> vardas >> pavarde)) {
             praleista++;
             continue;
         }
 
-        if (a.vardas == "Vardas" && a.pavarde == "Pavarde") continue;
+        if (vardas == "Vardas" && pavarde == "Pavarde") continue;
+
+        a.setVardas(vardas);
+        a.setPavarde(pavarde);
 
         std::vector<int> skaiciai;
         int x;
@@ -67,9 +71,9 @@ bool nuskaityti_i_konteineri(const std::string& failas, Container& grupe, int& p
             continue;
         }
 
-        a.egz = skaiciai.back();
+        a.setEgz(skaiciai.back());
         skaiciai.pop_back();
-        a.paz = skaiciai;
+        a.setPaz(skaiciai);
 
         skaiciuoti(a);
         grupe.push_back(a);
