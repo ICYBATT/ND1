@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iostream>
 
 class Studentas {
 private:
@@ -15,8 +16,13 @@ public:
     Studentas();
     Studentas(const std::string& vardas, const std::string& pavarde,
               const std::vector<int>& paz, int egz);
+
     Studentas(const Studentas& kitas);
+    Studentas(Studentas&& kitas) noexcept;
+
     Studentas& operator=(const Studentas& kitas);
+    Studentas& operator=(Studentas&& kitas) noexcept;
+
     ~Studentas();
 
     const std::string& getVardas() const;
@@ -33,6 +39,9 @@ public:
     void setEgz(int egz);
 
     void skaiciuotiGalutinius();
+
+    friend std::istream& operator>>(std::istream& in, Studentas& s);
+    friend std::ostream& operator<<(std::ostream& out, const Studentas& s);
 };
 
 double mediana(const std::vector<int>& paz);
