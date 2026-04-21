@@ -8,6 +8,9 @@
 #include <chrono>
 #include <algorithm>
 #include <iomanip>
+#include <sstream>
+#include <cmath>
+#include <utility>
 
 #include "studentas.h"
 #include "Input.h"
@@ -35,6 +38,117 @@ struct TyrimoRezultatas {
     double isvedimas = 0.0;
     double visas = 0.0;
 };
+
+static bool beveik_lygu(double a, double b) {
+    return std::fabs(a - b) < 1e-6;
+}
+
+static void vykdyti_v12_testus() {
+    using std::istringstream;
+    using std::ostringstream;
+
+    int is_viso = 0;
+    int praejo = 0;
+
+    auto testas = [&](bool salyga, const string& pavadinimas) {
+        is_viso++;
+        if (salyga) {
+            praejo++;
+            cout << "[OK] " << pavadinimas << "\n";
+        }
+        else {
+            cout << "[FAIL] " << pavadinimas << "\n";
+        }
+    };
+
+    cout << "\n========== V1.2 TESTAI ==========\n";
+
+    Studentas s1;
+    testas(
+        s1.getVardas().empty() &&
+        s1.getPavarde().empty() &&
+        s1.getPaz().empty() &&
+        s1.getEgz() == 0 &&
+        beveik_lygu(s1.getGalVid(), 0.0) &&
+        beveik_lygu(s1.getGalMed(), 0.0),
+        "Default konstruktorius"
+    );
+
+    Studentas s2("Jonas", "Jonaitis", { 8, 9, 10 }, 9);
+    testas(
+        s2.getVardas() == "Jonas" &&
+        s2.getPavarde() == "Jonaitis" &&
+        s2.getPaz().size() == 3 &&
+        s2.getEgz() == 9,
+        "Parametrinis konstruktorius"
+    );
+
+    Studentas s3(s2);
+    testas(
+        s3.getVardas() == s2.getVardas() &&
+        s3.getPavarde() == s2.getPavarde() &&
+        s3.getPaz() == s2.getPaz() &&
+        s3.getEgz() == s2.getEgz() &&
+        beveik_lygu(s3.getGalVid(), s2.getGalVid()) &&
+        beveik_lygu(s3.getGalMed(), s2.getGalMed()),
+        "Copy konstruktorius"
+    );
+
+    Studentas s4;
+    s4 = s2;
+    testas(
+        s4.getVardas() == s2.getVardas() &&
+        s4.getPavarde() == s2.getPavarde() &&
+        s4.getPaz() == s2.getPaz() &&
+        s4.getEgz() == s2.getEgz(),
+        "Copy assignment"
+    );
+
+    Studentas laikinas1("Petras", "Petraitis", { 7, 8, 9 }, 10);
+    Studentas s5(std::move(laikinas1));
+    testas(
+        s5.getVardas() == "Petras" &&
+        s5.getPavarde() == "Petraitis" &&
+        s5.getPaz().size() == 3 &&
+        s5.getEgz() == 10,
+        "Move konstruktorius"
+    );
+
+    Studentas laikinas2("Ona", "Onaite", { 6, 7, 8 }, 9);
+    Studentas s6;
+    s6 = std::move(laikinas2);
+    testas(
+        s6.getVardas() == "Ona" &&
+        s6.getPavarde() == "Onaite" &&
+        s6.getPaz().size() == 3 &&
+        s6.getEgz() == 9,
+        "Move assignment"
+    );
+
+    ostringstream out;
+    out << s2;
+    testas(!out.str().empty(), "operator<<");
+
+    istringstream in("Mantas Mantaitis 8 9 10 9\n");
+    Studentas s7;
+    in >> s7;
+    testas(
+        s7.getVardas() == "Mantas" &&
+        s7.getPavarde() == "Mantaitis" &&
+        s7.getPaz().size() == 3 &&
+        s7.getEgz() == 9,
+        "operator>>"
+    );
+
+    {
+        Studentas scope_test("Scope", "Test", { 10, 10, 10 }, 10);
+        testas(scope_test.getVardas() == "Scope", "Objektas destruktoriaus testui sukurtas");
+    }
+    testas(true, "Destruktorius pasiektas iseinant is scope");
+
+    cout << "\nPraejo " << praejo << " is " << is_viso << " testu.\n";
+    cout << "=================================\n";
+}
 
 static void rikiuoti(vector<Studentas>& grupe) {
     if (grupe.empty()) {
@@ -343,7 +457,7 @@ int main() {
 
         while (true) {
             int p = meniu();
-            if (p == 12) break;
+            if (p == 13) break;
 
             if (p == 1) {
                 int m = ivesti_kieki("Kiek studentu? ");
@@ -531,6 +645,10 @@ int main() {
 
             else if (p == 11) {
                 vykdyti_v1_visu_failu_tyrima(pasirinktasVM);
+            }
+
+            else if (p == 12) {
+                vykdyti_v12_testus();
             }
         }
 
