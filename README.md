@@ -1,97 +1,171 @@
-# ND1 v1.1
+# ND1 – Studentų duomenų apdorojimo sistema (v1.2)
 
-## Projekto aprasymas
+## Projekto aprašymas
 
-Tai C++ programa, skirta studentu duomenu apdorojimui ir spartos tyrimui.
+Programa skirta studentų duomenų apdorojimui. Ji leidžia:
 
-Programa leidzia:
-- ivesti studentus ranka
-- generuoti pazymius
-- generuoti studentus automatiskai
-- nuskaityti duomenis is failo
-- suskirstyti studentus i vargsiukus ir kietiakus
-- atlikti spartos tyrimus
+* įvesti studentų duomenis (rankiniu būdu, automatiškai, iš failo),
+* apskaičiuoti galutinį balą pagal vidurkį arba medianą,
+* rikiuoti studentus,
+* suskirstyti studentus į vargšiukus ir kietiakus,
+* išvesti rezultatus į ekraną arba į failus,
+* atlikti programos spartos tyrimus.
 
-## v1.1 versijos pakeitimai
+Versijoje v1.2 papildomai realizuota:
 
-Sioje versijoje ankstesne `struct Studentas` realizacija buvo pakeista i `class Studentas`.
+* pilna Rule of Five implementacija,
+* perdengti įvesties ir išvesties operatoriai,
+* visų metodų testavimas.
 
-Realizuota:
-- default konstruktorius
-- konstruktorius su parametrais
-- copy konstruktorius
-- priskyrimo operatorius
-- destruktorius
-- getteriai ir setteriai
+---
 
-Kadangi pereita is strukturos i klase, buvo atitinkamai pakeisti ir kiti failai:
-- `main.cpp`
-- `FileIO.cpp`
-- `Output.cpp`
-- `NaturalSort.cpp`
-- `KonteineriuStrategijos.h`
+## Rule of Five realizacija
 
-## Testavimo aplinka
+Klasėje `Studentas` realizuoti šie metodai:
 
-Testai atlikti su sia sistema:
-- Operacine sistema: Windows 11
-- Procesorius: AMD Ryzen 9 5900X
-- RAM: 15.9 GB
-- Vaizdo plokste: NVIDIA GeForce RTX 3080
-- Kompiliatorius: MSVC
-- Aplinka: Visual Studio Code
+| Metodas          | Aprašymas                 |
+| ---------------- | ------------------------- |
+| Copy constructor | Sukuria objekto kopiją    |
+| Move constructor | Perkelia objekto duomenis |
+| Copy assignment  | Priskiria kopijuojant     |
+| Move assignment  | Priskiria perkeliant      |
+| Destructor       | Atlaisvina resursus       |
 
-## Struct ir Class palyginimas
+Papildomai:
 
-Palyginimui naudoti:
-- tas pats konteineris: `vector`
-- ta pati greiciausia bendroji tyrimo schema
-- tie patys failai:
-  - `studentai100000.txt`
-  - `studentai1000000.txt`
+* numatytasis konstruktorius
+* parametrinis konstruktorius
 
-### Veikimo laiko lentele
+---
 
-| Versija | Optimizacija | 100000 | 1000000 |
-|---|---:|---:|---:|
-| Struct | O1 | 0.674304 s | 6.806057 s |
-| Struct | O2 | 0.662797 s | 6.713789 s |
-| Struct | O3 | 0.674079 s | 6.799089 s |
-| Class  | O1 | 2.126576 s | 21.302598 s |
-| Class  | O2 | 2.125712 s | 21.353622 s |
-| Class  | O3 | 0.694726 s | 7.069426 s |
+## Perdengti operatoriai
 
-## EXE failu dydzio palyginimas
+### operator>>
 
-| Versija | O1 | O2 | O3 |
-|---|---:|---:|---:|
-| Struct | 379904 B | 420352 B | 425984 B |
-| Class  | 384000 B | 408064 B | 413184 B |
+Naudojamas studento įvedimui:
 
-## Rezultatu analize
+```cpp
+std::cin >> studentas;
+```
 
-- `struct` versija sioje realizacijoje buvo greitesne uz `class` versija su O1 ir O2 optimizacijomis.
-- `class` versija su O3 optimizacija stipriai pagreitejo ir savo rezultatais beveik susilygino su `struct` versija.
-- Didziausias skirtumas tarp versiju matomas su 1000000 dydzio failu.
-- O3 optimizacija turejo didziausia teigiama itaka `class` versijai.
-- Programos veikimo laikui daugiausia itakos turi failo nuskaitymas ir rezultatu isvedimas.
-- Visi testai atlikti po kelis kartus, siekiant gauti stabilesnius ir patikimesnius rezultatus.
+Įvedimo formatas:
 
-## Isvados
+```
+Vardas Pavarde ND1 ND2 ND3 ... Egzaminas
+```
 
-- Perejimas is `struct` i `class` leido realizuoti labiau objektiskai orientuota programa.
-- `class Studentas` realizacija atitinka reikalavima tureti pilnai realizuotus konstruktorius ir destruktoriu.
-- Optimizavimo flagai turi didele itaka programos spartai.
-- Geriausias `class` versijos rezultatas gautas su O3 optimizacija.
-- v1.1 versijoje programa sekmingai pritaikyta darbui su klase ir veikia korektiskai.
+---
+
+### operator<<
+
+Naudojamas studento išvedimui:
+
+```cpp
+std::cout << studentas;
+```
+
+Išvedami:
+
+* vardas
+* pavardė
+* galutinis balas (vidurkis)
+* galutinis balas (mediana)
+
+---
+
+## Testavimas
+
+Sukurta funkcija:
+
+```
+vykdyti_v12_testus()
+```
+
+Tikrinami:
+
+* visi konstruktoriai
+* copy ir move operatoriai
+* įvesties/išvesties operatoriai
+* destruktorius
+
+### Testų rezultatas
+
+<img width="807" height="423" alt="image" src="https://github.com/user-attachments/assets/f790e51b-2618-4a75-99e0-0d5f3852acd5" />
+
+
+---
+
+## Duomenų įvedimas
+
+Programa palaiko šiuos įvedimo būdus:
+
+| Būdas              | Aprašymas                       |
+| ------------------ | ------------------------------- |
+| Rankinis           | Vartotojas įveda visus duomenis |
+| Pusiau automatinis | Pažymiai generuojami            |
+| Automatinis        | Viskas generuojama              |
+| Iš failo           | Duomenys skaitomi iš failo      |
+
+---
+
+## Duomenų išvedimas
+
+| Būdas    | Aprašymas                       |
+| -------- | ------------------------------- |
+| Į ekraną | Naudojamas `std::cout`          |
+| Į failą  | Sukuriami failai su rezultatais |
+
+Sukuriami failai:
+
+* vargsiukai.txt
+* kietiakai.txt
+
+---
+
+## Įvesties ir išvesties pavyzdys
+
+### Įvedimas
+
+<img width="581" height="337" alt="image" src="https://github.com/user-attachments/assets/da616504-13ee-41a2-9982-9ba89f5e470e" />
+
+
+---
+
+### Išvedimas
+
+<img width="882" height="121" alt="image" src="https://github.com/user-attachments/assets/6ce6acd1-98db-4520-8787-fe0786d43e89" />
+
+
+---
+
+## Studentų skirstymas
+
+Studentai skirstomi:
+
+* < 5 → vargšiukai
+* ≥ 5 → kietiakai
+
+---
 
 ## Programos paleidimas
 
-### Paprastas paleidimas
-- sukompiliuoti projekta
-- paleisti `main.exe`
+1. Paleisti programą
+2. Pasirinkti:
 
-### Optimizuoti paleidimai
-- `main_O1.exe`
-- `main_O2.exe`
-- `main_O3.exe`
+```
+(V)idurkis arba (M)ediana
+```
+
+3. Naudotis meniu
+
+---
+
+## Išvada
+
+Programa atitinka visus užduoties reikalavimus:
+
+* realizuota pilna Studentas klasė
+* įgyvendinti visi Rule of Five metodai
+* realizuoti įvesties/išvesties operatoriai
+* visi metodai patikrinti testais
+* programa veikia stabiliai
