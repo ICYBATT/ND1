@@ -61,7 +61,11 @@ static void vykdyti_v12_testus() {
         }
     };
 
-    cout << "\n========== V1.2 TESTAI ==========\n";
+    cout << "\n========== V1.5 TESTAI ==========\n";
+
+    cout << "\nAbstrakcios klases patikra:\n";
+    cout << "Zmogus objekto sukurti negalima, nes klase turi pure virtual metoda.\n";
+    cout << "Pavyzdys, kuris nesikompiliuotu: Zmogus z;\n";
 
     Studentas s1;
     testas(
@@ -140,10 +144,19 @@ static void vykdyti_v12_testus() {
         "operator>>"
     );
 
+    Zmogus* z = new Studentas("Test", "Studentas", { 10, 9, 8 }, 10);
+    testas(
+        z->getVardas() == "Test" &&
+        z->getPavarde() == "Studentas",
+        "Studentas naudojamas per Zmogus rodykle"
+    );
+    delete z;
+
     {
         Studentas scope_test("Scope", "Test", { 10, 10, 10 }, 10);
         testas(scope_test.getVardas() == "Scope", "Objektas destruktoriaus testui sukurtas");
     }
+
     testas(true, "Destruktorius pasiektas iseinant is scope");
 
     cout << "\nPraejo " << praejo << " is " << is_viso << " testu.\n";
