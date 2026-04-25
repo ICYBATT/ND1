@@ -1,12 +1,11 @@
 #pragma once
+#include "Zmogus.h"
 #include <string>
 #include <vector>
 #include <iostream>
 
-class Studentas {
+class Studentas : public Zmogus {
 private:
-    std::string vardas_;
-    std::string pavarde_;
     std::vector<int> paz_;
     int egz_;
     double gal_vid_;
@@ -25,20 +24,17 @@ public:
 
     ~Studentas();
 
-    const std::string& getVardas() const;
-    const std::string& getPavarde() const;
     const std::vector<int>& getPaz() const;
     int getEgz() const;
     double getGalVid() const;
     double getGalMed() const;
 
-    void setVardas(const std::string& vardas);
-    void setPavarde(const std::string& pavarde);
     void setPaz(const std::vector<int>& paz);
     void addPazymys(int pazymys);
     void setEgz(int egz);
 
     void skaiciuotiGalutinius();
+    void spausdintiInformacija() const override;
 
     friend std::istream& operator>>(std::istream& in, Studentas& s);
     friend std::ostream& operator<<(std::ostream& out, const Studentas& s);
