@@ -15,7 +15,7 @@ int meniu() {
     std::cout << "9 - Atlikti visu failu spartos tyrima (v0.4)\n";
     std::cout << "10 - V1.0 vieno failo konteineriu tyrimas\n";
     std::cout << "11 - V1.0 visu failu konteineriu tyrimas\n";
-    std::cout << "12 - V1.2 Studentas klases testai\n";
+    std::cout << "12 - V1.5 Studentas klases testai\n";
     std::cout << "13 - Baigti\n";
 
     return ivesti_skaiciu("Pasirinkimas: ", 1, 13);
