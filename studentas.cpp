@@ -4,33 +4,31 @@
 #include <utility>
 #include <sstream>
 #include <iomanip>
+#include <iostream>
 
 Studentas::Studentas()
-    : vardas_(""), pavarde_(""), paz_(), egz_(0), gal_vid_(0.0), gal_med_(0.0) {
-}
+    : Zmogus(), paz_(), egz_(0), gal_vid_(0.0), gal_med_(0.0) {}
 
 Studentas::Studentas(const std::string& vardas, const std::string& pavarde,
                      const std::vector<int>& paz, int egz)
-    : vardas_(vardas), pavarde_(pavarde), paz_(paz), egz_(egz), gal_vid_(0.0), gal_med_(0.0) {
+    : Zmogus(vardas, pavarde), paz_(paz), egz_(egz), gal_vid_(0.0), gal_med_(0.0) {
     skaiciuotiGalutinius();
 }
 
 Studentas::Studentas(const Studentas& kitas)
-    : vardas_(kitas.vardas_),
-      pavarde_(kitas.pavarde_),
+    : Zmogus(kitas.vardas_, kitas.pavarde_),
       paz_(kitas.paz_),
       egz_(kitas.egz_),
       gal_vid_(kitas.gal_vid_),
-      gal_med_(kitas.gal_med_) {
-}
+      gal_med_(kitas.gal_med_) {}
 
 Studentas::Studentas(Studentas&& kitas) noexcept
-    : vardas_(std::move(kitas.vardas_)),
-      pavarde_(std::move(kitas.pavarde_)),
+    : Zmogus(std::move(kitas.vardas_), std::move(kitas.pavarde_)),
       paz_(std::move(kitas.paz_)),
       egz_(kitas.egz_),
       gal_vid_(kitas.gal_vid_),
       gal_med_(kitas.gal_med_) {
+
     kitas.egz_ = 0;
     kitas.gal_vid_ = 0.0;
     kitas.gal_med_ = 0.0;
@@ -65,57 +63,20 @@ Studentas& Studentas::operator=(Studentas&& kitas) noexcept {
 }
 
 Studentas::~Studentas() {
-    vardas_.clear();
-    pavarde_.clear();
     paz_.clear();
     egz_ = 0;
     gal_vid_ = 0.0;
     gal_med_ = 0.0;
 }
 
-const std::string& Studentas::getVardas() const {
-    return vardas_;
-}
+const std::vector<int>& Studentas::getPaz() const { return paz_; }
+int Studentas::getEgz() const { return egz_; }
+double Studentas::getGalVid() const { return gal_vid_; }
+double Studentas::getGalMed() const { return gal_med_; }
 
-const std::string& Studentas::getPavarde() const {
-    return pavarde_;
-}
-
-const std::vector<int>& Studentas::getPaz() const {
-    return paz_;
-}
-
-int Studentas::getEgz() const {
-    return egz_;
-}
-
-double Studentas::getGalVid() const {
-    return gal_vid_;
-}
-
-double Studentas::getGalMed() const {
-    return gal_med_;
-}
-
-void Studentas::setVardas(const std::string& vardas) {
-    vardas_ = vardas;
-}
-
-void Studentas::setPavarde(const std::string& pavarde) {
-    pavarde_ = pavarde;
-}
-
-void Studentas::setPaz(const std::vector<int>& paz) {
-    paz_ = paz;
-}
-
-void Studentas::addPazymys(int pazymys) {
-    paz_.push_back(pazymys);
-}
-
-void Studentas::setEgz(int egz) {
-    egz_ = egz;
-}
+void Studentas::setPaz(const std::vector<int>& paz) { paz_ = paz; }
+void Studentas::addPazymys(int pazymys) { paz_.push_back(pazymys); }
+void Studentas::setEgz(int egz) { egz_ = egz; }
 
 double mediana(const std::vector<int>& paz) {
     if (paz.empty()) return 0.0;
@@ -134,7 +95,7 @@ void Studentas::skaiciuotiGalutinius() {
     if (!paz_.empty()) {
         long long suma = 0;
         for (int x : paz_) suma += x;
-        vid = (double)suma / (double)paz_.size();
+        vid = (double)suma / paz_.size();
     }
 
     double med = mediana(paz_);
@@ -143,14 +104,20 @@ void Studentas::skaiciuotiGalutinius() {
     gal_med_ = med * 0.4 + egz_ * 0.6;
 }
 
+void Studentas::spausdintiInformacija() const {
+    std::cout << vardas_ << " " << pavarde_
+              << " Galutinis (vid): " << gal_vid_
+              << " Galutinis (med): " << gal_med_
+              << std::endl;
+}
+
 std::istream& operator>>(std::istream& in, Studentas& s) {
     std::string eilute;
-    if (!std::getline(in >> std::ws, eilute)) {
-        return in;
-    }
+    if (!std::getline(in >> std::ws, eilute)) return in;
 
     std::istringstream iss(eilute);
     std::string vardas, pavarde;
+
     if (!(iss >> vardas >> pavarde)) {
         in.setstate(std::ios::failbit);
         return in;
@@ -158,9 +125,7 @@ std::istream& operator>>(std::istream& in, Studentas& s) {
 
     std::vector<int> skaiciai;
     int x;
-    while (iss >> x) {
-        skaiciai.push_back(x);
-    }
+    while (iss >> x) skaiciai.push_back(x);
 
     if (!iss.eof() || skaiciai.size() < 2) {
         in.setstate(std::ios::failbit);
@@ -179,8 +144,8 @@ std::istream& operator>>(std::istream& in, Studentas& s) {
     s.egz_ = skaiciai.back();
     skaiciai.pop_back();
     s.paz_ = skaiciai;
-    s.skaiciuotiGalutinius();
 
+    s.skaiciuotiGalutinius();
     return in;
 }
 
