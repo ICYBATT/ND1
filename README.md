@@ -1,171 +1,213 @@
-# ND1 – Studentų duomenų apdorojimo sistema (v1.2)
+# ND1 v1.5
 
 ## Projekto aprašymas
 
-Programa skirta studentų duomenų apdorojimui. Ji leidžia:
+Tai C++ programa, skirta studentų duomenų apdorojimui, rūšiavimui, skirstymui ir spartos tyrimams.
 
-* įvesti studentų duomenis (rankiniu būdu, automatiškai, iš failo),
-* apskaičiuoti galutinį balą pagal vidurkį arba medianą,
-* rikiuoti studentus,
-* suskirstyti studentus į vargšiukus ir kietiakus,
-* išvesti rezultatus į ekraną arba į failus,
-* atlikti programos spartos tyrimus.
+Programa leidžia:
 
-Versijoje v1.2 papildomai realizuota:
-
-* pilna Rule of Five implementacija,
-* perdengti įvesties ir išvesties operatoriai,
-* visų metodų testavimas.
+* įvesti studentus rankiniu būdu
+* generuoti pažymius
+* pilnai generuoti studentus
+* nuskaityti duomenis iš failo
+* išvesti rezultatus į ekraną arba failą
+* suskirstyti studentus į vargšiukus ir kietiakus
+* atlikti spartos tyrimus
+* testuoti Studentas klasės veikimą
 
 ---
 
-## Rule of Five realizacija
+## v1.5 versijos tikslas
 
-Klasėje `Studentas` realizuoti šie metodai:
+v1.5 versijoje realizuotas paveldimumas:
 
-| Metodas          | Aprašymas                 |
-| ---------------- | ------------------------- |
-| Copy constructor | Sukuria objekto kopiją    |
-| Move constructor | Perkelia objekto duomenis |
-| Copy assignment  | Priskiria kopijuojant     |
-| Move assignment  | Priskiria perkeliant      |
-| Destructor       | Atlaisvina resursus       |
-
-Papildomai:
-
-* numatytasis konstruktorius
-* parametrinis konstruktorius
+* sukurta abstrakti bazinė klasė `Zmogus`
+* klasė `Studentas` yra išvestinė iš `Zmogus`
+* išlaikyta visa v1.2 programos logika
+* patikrintas visų metodų veikimas
 
 ---
 
-## Perdengti operatoriai
+## Abstrakti klasė Zmogus
 
-### operator>>
-
-Naudojamas studento įvedimui:
+Bazė:
 
 ```cpp
-std::cin >> studentas;
+class Zmogus
 ```
 
-Įvedimo formatas:
+Klasė yra abstrakti, nes turi grynai virtualų metodą:
 
+```cpp
+virtual void spausdintiInformacija() const = 0;
 ```
-Vardas Pavarde ND1 ND2 ND3 ... Egzaminas
+
+Dėl to negalima kurti objektų:
+
+```cpp
+Zmogus z; // nesikompiliuoja
+```
+
+Galima kurti tik išvestines klases objektus:
+
+```cpp
+Studentas s;
 ```
 
 ---
 
-### operator<<
+## Paveldimumas
 
-Naudojamas studento išvedimui:
+`Studentas` klasė paveldi iš `Zmogus`:
 
 ```cpp
-std::cout << studentas;
+class Studentas : public Zmogus
 ```
 
-Išvedami:
+Paveldimi bendri duomenys:
 
 * vardas
 * pavardė
-* galutinis balas (vidurkis)
-* galutinis balas (mediana)
+
+Papildomi Studentas duomenys:
+
+* pažymiai
+* egzamino balas
+* galutinis balas (vidurkis ir mediana)
+
+---
+
+## Rule of Five
+
+Studentas klasėje realizuota penkių metodų taisyklė:
+
+| Metodas             | Aprašymas               |
+| ------------------- | ----------------------- |
+| Destruktorius       | Objektų sunaikinimas    |
+| Copy konstruktorius | Objekto kopijavimas     |
+| Copy assignment     | Priskyrimas kopijuojant |
+| Move konstruktorius | Objektų perkėlimas      |
+| Move assignment     | Priskyrimas perkeliant  |
+
+Papildomai realizuota:
+
+* default konstruktorius
+* parametrinis konstruktorius
+* įvesties operatorius `>>`
+* išvesties operatorius `<<`
+
+---
+
+## Metodų aprašymas
+
+### Duomenų įvedimas
+
+* Rankinis įvedimas – vartotojas įveda visus duomenis
+* Dalinis generavimas – pažymiai generuojami automatiškai
+* Pilnas generavimas – sugeneruojami visi duomenys
+* Nuskaitymas iš failo – duomenys skaitomi iš `.txt`
+
+### Duomenų išvedimas
+
+* Į ekraną – rezultatai pateikiami terminale
+* Į failą – rezultatai išsaugomi `.txt` faile
+* Skirstymas – sukuriami `vargsiukai.txt` ir `kietiakai.txt`
+
+### Skaičiavimai
+
+Galutinis balas skaičiuojamas pagal formulę:
+
+```
+0.4 * ND + 0.6 * egzaminas
+```
 
 ---
 
 ## Testavimas
 
-Sukurta funkcija:
+Programa turi integruotus testus (meniu pasirinkimas 12).
+
+Testuojama:
+
+| Testas                      | Tikslas                      |
+| --------------------------- | ---------------------------- |
+| Default konstruktorius      | Patikrina tuščią objektą     |
+| Parametrinis konstruktorius | Patikrina duomenų priskyrimą |
+| Copy konstruktorius         | Patikrina kopijavimą         |
+| Copy assignment             | Patikrina priskyrimą         |
+| Move konstruktorius         | Patikrina perkėlimą          |
+| Move assignment             | Patikrina perkėlimą          |
+| operator<<                  | Patikrina išvedimą           |
+| operator>>                  | Patikrina įvedimą            |
+| Paveldimumas                | Studentas per Zmogus rodyklę |
+| Destruktorius               | Objektų sunaikinimas         |
+
+Rezultatas:
 
 ```
-vykdyti_v12_testus()
+Praejo 11 is 11 testu (visi testai sekmingi)
 ```
-
-Tikrinami:
-
-* visi konstruktoriai
-* copy ir move operatoriai
-* įvesties/išvesties operatoriai
-* destruktorius
-
-### Testų rezultatas
-
-<img width="807" height="423" alt="image" src="https://github.com/user-attachments/assets/f790e51b-2618-4a75-99e0-0d5f3852acd5" />
-
 
 ---
 
 ## Duomenų įvedimas
 
-Programa palaiko šiuos įvedimo būdus:
-
-| Būdas              | Aprašymas                       |
-| ------------------ | ------------------------------- |
-| Rankinis           | Vartotojas įveda visus duomenis |
-| Pusiau automatinis | Pažymiai generuojami            |
-| Automatinis        | Viskas generuojama              |
-| Iš failo           | Duomenys skaitomi iš failo      |
+| Būdas       | Aprašymas                         |
+| ----------- | --------------------------------- |
+| Rankinis    | Vartotojas įveda duomenis         |
+| Generavimas | Duomenys generuojami automatiškai |
+| Failas      | Nuskaitymas iš `.txt` failo       |
 
 ---
 
 ## Duomenų išvedimas
 
-| Būdas    | Aprašymas                       |
-| -------- | ------------------------------- |
-| Į ekraną | Naudojamas `std::cout`          |
-| Į failą  | Sukuriami failai su rezultatais |
-
-Sukuriami failai:
-
-* vargsiukai.txt
-* kietiakai.txt
+| Būdas      | Aprašymas                |
+| ---------- | ------------------------ |
+| Ekranas    | Išvedama į terminalą     |
+| Failas     | Išsaugoma į `.txt`       |
+| Skirstymas | Sukuriami atskiri failai |
 
 ---
 
-## Įvesties ir išvesties pavyzdys
+## Programos veikimo logika
 
-### Įvedimas
+Programa išlaiko v1.2 funkcionalumą:
 
-<img width="581" height="337" alt="image" src="https://github.com/user-attachments/assets/da616504-13ee-41a2-9982-9ba89f5e470e" />
+* rūšiavimas
+* skirstymas
+* failų nuskaitymas
+* spartos matavimas
 
+Papildomai:
 
----
-
-### Išvedimas
-
-<img width="882" height="121" alt="image" src="https://github.com/user-attachments/assets/6ce6acd1-98db-4520-8787-fe0786d43e89" />
-
-
----
-
-## Studentų skirstymas
-
-Studentai skirstomi:
-
-* < 5 → vargšiukai
-* ≥ 5 → kietiakai
+* realizuotas paveldimumas
+* realizuota abstrakti klasė
 
 ---
 
-## Programos paleidimas
+## Testavimo aplinka
 
-1. Paleisti programą
-2. Pasirinkti:
+| Komponentas    | Reikšmė            |
+| -------------- | ------------------ |
+| OS             | Windows 11         |
+| CPU            | AMD Ryzen 9        |
+| RAM            | 16 GB              |
+| Kompiliatorius | MSVC               |
+| Aplinka        | Visual Studio Code |
 
-```
-(V)idurkis arba (M)ediana
-```
+---
 
-3. Naudotis meniu
+## Programos veikimo pavyzdys
+
+<img width="708" height="378" alt="image" src="https://github.com/user-attachments/assets/fec09c68-2b6d-400f-8b0e-570a199ea6cd" />
+
 
 ---
 
 ## Išvada
 
-Programa atitinka visus užduoties reikalavimus:
+v1.5 versijoje programa papildyta paveldimumu.
 
-* realizuota pilna Studentas klasė
-* įgyvendinti visi Rule of Five metodai
-* realizuoti įvesties/išvesties operatoriai
-* visi metodai patikrinti testais
-* programa veikia stabiliai
+Sukurta abstrakti klasė `Zmogus`, iš kurios paveldi `Studentas`.
+Programa išlaiko v1.2 logiką, realizuoja Rule of Five ir turi pilnai veikiančius testus.
