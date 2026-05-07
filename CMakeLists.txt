@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
-project(1UZD)
+project(ND1_v2_0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(1UZD
-    main.cpp
+add_library(nd1_lib
     studentas.cpp
     FileIO.cpp
     Output.cpp
@@ -16,4 +15,10 @@ add_executable(1UZD
     Tyrimas.cpp
 )
 
-target_include_directories(1UZD PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(nd1_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_executable(ND1
+    main.cpp
+)
+
+target_link_libraries(ND1 PRIVATE nd1_lib)
