@@ -1,171 +1,189 @@
-# ND1 – Studentų duomenų apdorojimo sistema (v1.2)
+# ND1 v2.0
 
 ## Projekto aprašymas
 
-Programa skirta studentų duomenų apdorojimui. Ji leidžia:
-
-* įvesti studentų duomenis (rankiniu būdu, automatiškai, iš failo),
-* apskaičiuoti galutinį balą pagal vidurkį arba medianą,
-* rikiuoti studentus,
-* suskirstyti studentus į vargšiukus ir kietiakus,
-* išvesti rezultatus į ekraną arba į failus,
-* atlikti programos spartos tyrimus.
-
-Versijoje v1.2 papildomai realizuota:
-
-* pilna Rule of Five implementacija,
-* perdengti įvesties ir išvesties operatoriai,
-* visų metodų testavimas.
+Tai C++ programa, skirta studentų duomenų apdorojimui, rūšiavimui, skirstymui bei spartos tyrimams naudojant skirtingus STL konteinerius.
 
 ---
 
-## Rule of Five realizacija
+# Programos galimybės
 
-Klasėje `Studentas` realizuoti šie metodai:
-
-| Metodas          | Aprašymas                 |
-| ---------------- | ------------------------- |
-| Copy constructor | Sukuria objekto kopiją    |
-| Move constructor | Perkelia objekto duomenis |
-| Copy assignment  | Priskiria kopijuojant     |
-| Move assignment  | Priskiria perkeliant      |
-| Destructor       | Atlaisvina resursus       |
-
-Papildomai:
-
-* numatytasis konstruktorius
-* parametrinis konstruktorius
+- rankinė įvestis
+- automatinis generavimas
+- failų skaitymas
+- rūšiavimas
+- skirstymas į grupes
+- spartos tyrimai
+- dokumentacijos generavimas
 
 ---
 
-## Perdengti operatoriai
+# Versijų istorija
 
-### operator>>
+## v0.1
+- bazinė programos versija
 
-Naudojamas studento įvedimui:
+## v0.2
+- pridėtas failų skaitymas
 
-```cpp
-std::cin >> studentas;
-```
+## v0.4
+- pridėti spartos tyrimai
 
-Įvedimo formatas:
+## v1.0
+- konteinerių analizė (`vector`, `list`, `deque`)
+- realizuotos 3 strategijos
 
-```
-Vardas Pavarde ND1 ND2 ND3 ... Egzaminas
-```
+## v1.2
+- realizuotas Rule of Five
+- operatorių perdengimas
 
----
+## v1.5
+- realizuotas paveldėjimas (`Zmogus`)
 
-### operator<<
-
-Naudojamas studento išvedimui:
-
-```cpp
-std::cout << studentas;
-```
-
-Išvedami:
-
-* vardas
-* pavardė
-* galutinis balas (vidurkis)
-* galutinis balas (mediana)
+## v2.0
+- unit testai
+- Doxygen dokumentacija
+- PDF dokumentacija
+- optimizuotas projektas
 
 ---
 
-## Testavimas
-
-Sukurta funkcija:
-
-```
-vykdyti_v12_testus()
-```
-
-Tikrinami:
-
-* visi konstruktoriai
-* copy ir move operatoriai
-* įvesties/išvesties operatoriai
-* destruktorius
-
-### Testų rezultatas
-
-<img width="807" height="423" alt="image" src="https://github.com/user-attachments/assets/f790e51b-2618-4a75-99e0-0d5f3852acd5" />
-
-
----
-
-## Duomenų įvedimas
-
-Programa palaiko šiuos įvedimo būdus:
-
-| Būdas              | Aprašymas                       |
-| ------------------ | ------------------------------- |
-| Rankinis           | Vartotojas įveda visus duomenis |
-| Pusiau automatinis | Pažymiai generuojami            |
-| Automatinis        | Viskas generuojama              |
-| Iš failo           | Duomenys skaitomi iš failo      |
-
----
-
-## Duomenų išvedimas
-
-| Būdas    | Aprašymas                       |
-| -------- | ------------------------------- |
-| Į ekraną | Naudojamas `std::cout`          |
-| Į failą  | Sukuriami failai su rezultatais |
-
-Sukuriami failai:
-
-* vargsiukai.txt
-* kietiakai.txt
-
----
-
-## Įvesties ir išvesties pavyzdys
-
-### Įvedimas
-
-<img width="581" height="337" alt="image" src="https://github.com/user-attachments/assets/da616504-13ee-41a2-9982-9ba89f5e470e" />
-
-
----
-
-### Išvedimas
-
-<img width="882" height="121" alt="image" src="https://github.com/user-attachments/assets/6ce6acd1-98db-4520-8787-fe0786d43e89" />
-
-
----
-
-## Studentų skirstymas
-
-Studentai skirstomi:
-
-* < 5 → vargšiukai
-* ≥ 5 → kietiakai
-
----
+# Naudojimosi instrukcija
 
 ## Programos paleidimas
 
-1. Paleisti programą
-2. Pasirinkti:
-
-```
-(V)idurkis arba (M)ediana
+```bash
+./main
 ```
 
-3. Naudotis meniu
+## Programos meniu
+
+1 - rankinė įvestis  
+2 - automatinis generavimas  
+3 - skaitymas iš failo  
+4 - rūšiavimas  
+5 - skirstymas  
+6 - spartos tyrimai  
 
 ---
 
-## Išvada
+# Įdiegimo instrukcija
 
-Programa atitinka visus užduoties reikalavimus:
+## CMake build
 
-* realizuota pilna Studentas klasė
-* įgyvendinti visi Rule of Five metodai
-* realizuoti įvesties/išvesties operatoriai
-* visi metodai patikrinti testais
-* programa veikia stabiliai
+```bash
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
+---
+
+# Unit testai
+
+Unit testai realizuoti naudojant Catch2 framework.
+
+Testų tikslas – patikrinti svarbiausią `Studentas` klasės funkcionalumą ir parodyti, kad klasė veikia teisingai.
+
+Testuojama:
+
+| Testas | Ką tikrina |
+|---|---|
+| Default konstruktorius | Ar tuščias `Studentas` objektas sukuriamas teisingai |
+| Parametrinis konstruktorius | Ar studento duomenys teisingai perduodami per konstruktorių |
+| Copy konstruktorius | Ar objektas teisingai nukopijuojamas |
+| Move konstruktorius | Ar objektas teisingai perkeliamas |
+| Copy assignment operatorius | Ar objektas teisingai priskiriamas kopijuojant |
+| Move assignment operatorius | Ar objektas teisingai priskiriamas perkeliant |
+| `operator>>` | Ar studento duomenys teisingai nuskaitomi iš srauto |
+| `operator<<` | Ar studento duomenys teisingai išvedami į srautą |
+
+Rule of Five tikrinimas yra būtina v2.0 dalis, todėl testuose tikrinami:
+
+- copy konstruktorius
+- move konstruktorius
+- copy assignment operatorius
+- move assignment operatorius
+- destruktoriaus veikimas per objekto gyvavimo ciklą
+
+## Testų paleidimas
+
+```bash
+ctest
+```
+
+## Unit testų rezultatai
+
+<img width="822" height="359" alt="image" src="https://github.com/user-attachments/assets/62696500-b3c8-42a8-8ae9-20faae91517b" />
+
+
+---
+
+# Doxygen dokumentacija
+
+Dokumentacija generuojama naudojant Doxygen ir MiKTeX.
+
+## HTML generavimas
+
+```bash
+doxygen Doxyfile
+```
+
+## PDF generavimas
+
+```bash
+cd latex
+make.bat
+```
+
+Sugeneruojamas:
+- HTML dokumentacijos aplankas
+- `refman.pdf`
+
+---
+
+# Spartos tyrimai
+
+Atlikus tyrimus pastebėta, kad `vector` konteineris daugeliu atvejų veikė greičiausiai, ypač dirbant su dideliais duomenų kiekiais.
+
+## Testavimo sistema
+
+| Komponentas | Reikšmė |
+|---|---|
+| OS | Windows 11 |
+| CPU | AMD Ryzen 9 5900X 12-Core |
+| RAM | 16 GB |
+
+---
+
+# Nuotraukos
+
+## Programos veikimas
+
+<img width="822" height="359" alt="image" src="https://github.com/user-attachments/assets/eefe2baf-8660-4fec-a78a-cd2f6ac1397c" />
+
+## Doxygen dokumentacija
+
+### PDF
+
+<img width="3089" height="2083" alt="image" src="https://github.com/user-attachments/assets/71237d32-10e3-4576-87e1-5aa964318794" />
+
+### HTML
+
+<img width="1526" height="914" alt="image" src="https://github.com/user-attachments/assets/62c0d026-ea04-4a78-9dba-df241ba65e5e" />
+
+---
+
+# Projekto struktūra
+
+```txt
+├── main.cpp
+├── studentas.cpp
+├── studentas.h
+├── Zmogus.h
+├── tests/
+├── Doxyfile
+├── CMakeLists.txt
+├── README.md
+```
