@@ -1,10 +1,14 @@
 studentai*.txt
-kietiakiai.txt
+kietiakai.txt
 vargsiukai.txt
 
 /build/
 /.vscode/
 /.vs/
+
+html/
+latex/
+docs/
 
 *.obj
 *.exe
@@ -19,7 +23,6 @@ vargsiukai.txt
 CMakeCache.txt
 CTestTestfile.cmake
 cmake_install.cmake
-
 Testing/
 _deps/
 Debug/
